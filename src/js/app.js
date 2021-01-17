@@ -1,9 +1,17 @@
 import React from 'react'
+import './app.scss'
 
-export default function app(){
-    return(
-        <h1>
-            Hola componente
-        </h1>
-    )
+import Login from './pages/Login/Login'
+
+class App extends React.Component {
+    
+    render(){
+        return(
+            <div>
+                <Login />
+            </div>
+        )
+    }
 }
+
+export default App;
