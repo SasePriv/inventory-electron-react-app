@@ -2,7 +2,7 @@ import React from 'react'
 import LoginForm from '../../components/Login/LoginForm/LoginForm'
 import LoginInfo from '../../components/Login/LoginInfo/LoginInfo'
 import SignUpForm from '../../components/Login/SignUpForm/SignUpForm'
-import VideoBackground from '../../../../assets/videos/backgroundVideoLogin2.mp4'
+import VideoBackground from '../../../../assets/videos/backgroundVideoLogin3.mp4'
 import './Login.scss'
 
 const Login = () => {
