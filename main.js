@@ -7,6 +7,8 @@ function createWindow() {
     const win = new BrowserWindow({
         width: 1200,
         height: 800,
+        minWidth:1000,
+        minHeight: 800,
         backgroundColor: "white",
         webPreferences: {
             nodeIntegration: true,
@@ -24,5 +26,7 @@ if(isDev){
     })    
 }
 
+app.commandLine.appendSwitch("autoplay-policy", "no-user-gesture-required")
 
 app.whenReady().then(createWindow)
+

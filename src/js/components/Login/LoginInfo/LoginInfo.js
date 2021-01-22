@@ -4,8 +4,10 @@ import './LoginInfo.scss'
 
 const LoginInfo = () => {
     return(
-        <div>
-            
+        <div className="LoginInfo">
+            <h1>Bienvenido a</h1>
+            <h1>BestNameEver</h1>
+            <h1>Amazing</h1>
         </div>
     )
 }

@@ -1,13 +1,33 @@
 .LoginForm{
 
-    text-align: center;
-    border: 1px solid black;
+    // text-align: center;
+    // border: 1px solid black;
     border-radius: 30px;
+    width: 100%;
+
+    h4{
+        font-family: "tisaSansPro-Black";
+    }
 
     .form-group{
-        padding: 10px;
+        // padding: 10px;
         .label{
-            padding: 10px 0px 10px 0px;
+            padding: 10px 0px 5px 0px;
+            font-family: "tisaSansPro-Bold";
         }
+    }
+
+    button{
+        font-family: "tisaSansPro-ExtraBold";
+        background-color: #00AEFB;
+        border-color: #00AEFB;
+        margin-top: 5px;
+    }
+
+    .register{
+        margin-top: auto;
+        color: #00AEFB;
+        font-size: 0.8rem;
+        cursor: pointer;
     }
 }

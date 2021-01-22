@@ -1,11 +1,34 @@
 .Login{
-    background-color: #00CEAA;
+    position: fixed;
+    // background-color: #00CEAA;
     height: 100vh;
-    padding: 50px;
+    padding: 50px 100px 50px 100px;
+    width: 100%;
     .square{
         background-color: white;
         border-radius: 30px;
         height: 85vh;
         padding: 30px;
+        justify-content: center;
     }
+
+    .separator-line{
+        background-color: #00AEFB;
+        width: 5px;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .middle{
+        align-items: center;
+        display: flex;
+        justify-content: center;        
+    }
+}
+
+#myVideo {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;    
 }
