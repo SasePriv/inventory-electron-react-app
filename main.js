@@ -1,7 +1,5 @@
-const { app, BrowserWindow} = require('electron');
-const path = require("path")
-
-const isDev = !app.isPackaged;
+const { BrowserWindow } = require('electron');
+const { user } = require('./backend/controllers/index')
 
 function createWindow() {
     const win = new BrowserWindow({
@@ -12,21 +10,17 @@ function createWindow() {
         backgroundColor: "white",
         webPreferences: {
             nodeIntegration: true,
-            worldSafeExecuteJavaScript: true,
-            contextIsolation: true
+            enableRemoteModule: true
+            // worldSafeExecuteJavaScript: true,
+            // contextIsolation: true
         }
     })
 
     win.loadFile('index.html');
 }
 
-if(isDev){
-    require('electron-reload')(__dirname, {
-        electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
-    })    
+
+module.exports = {
+    user,
+    createWindow
 }
-
-app.commandLine.appendSwitch("autoplay-policy", "no-user-gesture-required")
-
-app.whenReady().then(createWindow)
-
