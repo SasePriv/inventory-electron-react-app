@@ -16,12 +16,14 @@ exports.createUserWithCompany = async (data) => {
             adress,
             phone,
         } = data;
+
+        let uperCompanyName = companyName.toUpperCase();
     
-        const findEmail = UserModel.find({email: email, companyName: companyName});
+        const findEmail = UserModel.find({email: email, companyName: uperCompanyName});
     
         if (findEmail.length >= 1) {
             
-            return({message: "Email is already registered with this company"})
+            return({message: "email-exist"})
     
         }else{
     
@@ -34,13 +36,13 @@ exports.createUserWithCompany = async (data) => {
                 username,
                 password: hash,
                 role,
-                companyName,
+                companyName: uperCompanyName,
                 phone
             })
     
             const newCompany = new CompanyModel({
                 _id: new mongoose.Types.ObjectId(),
-                companyName,
+                companyName: uperCompanyName,
                 adress,
                 phone,
                 email,
@@ -53,22 +55,22 @@ exports.createUserWithCompany = async (data) => {
             const resultCompany = await newCompany.save();
     
             if (!resultUser) {
-                return({message: "Unable to create user"})
+                return({message: "error-email"})
             }
     
         
             if (!resultCompany) {
-                return({message: "Unable to create company"})
+                return({message: "error-company"})
             }
     
             return({message: "Successful", dataUser: resultUser, dataCompany: resultCompany});
     
         }
     } catch (error) {
-        console.log("Error creating user and company")
+        console.log("error-back")
         console.log(error)
 
-        return({message: "Some error creating user or company"})
+        return({message: "error-general"})
     }
 
 }

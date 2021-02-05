@@ -24,33 +24,33 @@ const SignInReducer = (state = INITIAL_STATE, action) => {
             }
         }
       
-        case SignInActionTypes.SIGN_IN_START: {
+        case SigninActionTypes.SIGN_IN_START: {
             return {
                 ...state,
                 isSigningIn: true
             };
         }
-        case SignInActionTypes.SIGN_IN_SUCCESS: {
+        case SigninActionTypes.SIGN_IN_SUCCESS: {
             return {
                 ...state,
                 isSigningIn: false,
             };
         }
-        case SignInActionTypes.SIGN_IN_FAILURE: {
+        case SigninActionTypes.SIGN_IN_FAILURE: {
             return {
                 ...state,
                 isSigningIn: false,
                 signInFailure: payload
             };
         }
-        case SignInActionTypes.SIGN_IN_ERROR: {
+        case SigninActionTypes.SIGN_IN_ERROR: {
             return {
                 ...state,
                 isSigningIn: false,
                 signInError: payload
             };
         }
-        case SignInActionTypes.RESET_SIGN_IN: {
+        case SigninActionTypes.RESET_SIGN_IN: {
             return INITIAL_STATE;
         }
 

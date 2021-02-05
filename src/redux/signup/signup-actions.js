@@ -3,7 +3,7 @@ import { signUpAsync } from '../../services/signUp/signUpService';
 import { setCurrentUser } from '../user/user-actions';
 
 export const setFormData = (formData) => ({
-    types: SignupActionType.SET_FORM_DATA,
+    type: SignupActionType.SET_FORM_DATA,
     payload: formData
 });
 
@@ -29,8 +29,8 @@ export const resetSignUp = () => ({
     type: SignupActionType.RESET_SIGN_UP
 });
 
-export const signUpAsync = (signUpData) => {
-    return dispatch => {
+export const signUpCreate = (signUpData) => {
+    return async dispatch => {
         dispatch(signUpStart());
         try {
             const data = await signUpAsync(signUpData);

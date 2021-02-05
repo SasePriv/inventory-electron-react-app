@@ -11,11 +11,11 @@ const LoginForm = ({toggleStatus}) => {
         <div className=" p-5 LoginForm">
             <h4>Inciar Sesion</h4>
 
-            <div class="form-group">
+            <div className="form-group">
                 <label className="label">Selecionar una Empresa Registrada</label>
-                <select class="form-control" id="exampleFormControlSelect1">
-                <option hidden selected>Selecciona una opción</option>
-                <option>PEPE ENTERPRISE</option>
+                <select className="form-control" id="exampleFormControlSelect1" defaultValue="Selecciona una opción">
+                    <option hidden>Selecciona una opción</option>
+                    <option>PEPE ENTERPRISE</option>
                 </select>
             </div>
 
