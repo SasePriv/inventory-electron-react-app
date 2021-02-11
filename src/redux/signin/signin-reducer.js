@@ -2,10 +2,8 @@ import SigninActionTypes from './signin-types';
 
 const INITIAL_STATE = {
     formData: {
-        username: "",
-        email: "",
-        password: "",
-        company: ""
+        username: "",        
+        password: "",        
     },
     isSigningIn: false,
     signInFailure: false,

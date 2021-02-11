@@ -7,20 +7,15 @@ import { selectSignUpFormData } from '../../../redux/signup/signup-selectors'
 import { setFormData, signUpCreate } from '../../../redux/signup/signup-actions'
 import { signupValidationsForm } from '../../../utils/validationInputs'
 import { handleError } from '../../../utils/handleErrors'
+import { selectErrorInputsData } from '../../../redux/errorsInputs//errorsInputs-selectors'
+import { setErrorData, resetErrorData } from '../../../redux/errorsInputs/errorsInputs-actions'
 
 
 import './SignUpForm.scss'
 
-const SignUpForm = ({toggleStatus, signUpFormData, setFormData, signUpAsync}) => {
+const SignUpForm = ({toggleStatus, signUpFormData, setFormData, signUpCreate, errorInputs, setErrorData, resetErrorData}) => {
 
     const [confirmationPass, setConfirmationPass] = useState('');
-    const [errorInputs, setErrorInputs] = useState(
-        {
-            typeError: '',
-            errorMessage: '',
-            statusError: false
-        }
-    )
 
     const handleChangeInput = (event, nameInput) => {
         setFormData({[nameInput]: event.target.value });
@@ -31,14 +26,20 @@ const SignUpForm = ({toggleStatus, signUpFormData, setFormData, signUpAsync}) =>
     }
 
     const handleCreate = () => {
-        const result = signupValidationsForm(signUpFormData, confirmationPass)
+        const result = signupValidationsForm(signUpFormData, confirmationPass)        
 
         if (result.status) {
-            
+            resetErrorData()
+            try {
+                signUpCreate(signUpFormData);
+            } catch (error) {
+                console.log(error)
+            }            
+
         } else {
             console.log(result)
             console.log("error", handleError(result.message))
-            setErrorInputs({
+            setErrorData({
                 typeError: result.type,
                 errorMessage: handleError(result.message),
                 statusError: true
@@ -214,12 +215,15 @@ const SignUpForm = ({toggleStatus, signUpFormData, setFormData, signUpAsync}) =>
 }
 
 const mapStateToProps = createStructuredSelector({
-    signUpFormData: selectSignUpFormData
+    signUpFormData: selectSignUpFormData,
+    errorInputs: selectErrorInputsData
 });
 
 const mapDispatchToProps = dispatch => ({
     setFormData: (formData) => dispatch(setFormData(formData)),
-    signUpCreate: (signUpData) => dispatch(signUpCreate(signUpData))
+    signUpCreate: (signUpData) => dispatch(signUpCreate(signUpData)),
+    setErrorData: (errorData) => dispatch(setErrorData(errorData)),
+    resetErrorData: () => dispatch(resetErrorData())
 });   
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpForm);

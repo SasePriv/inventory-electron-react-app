@@ -1,12 +1,28 @@
-import React from 'react'
-import './app.scss'
-import {Route, Switch, HashRouter, Redirect} from 'react-router-dom'
-import Dashboard from './pages/Dashboard/Dashboard'
-import Login from './pages/Login/Login'
-import ProtectedRoute from './routes/protectedRoute'
-import PrivateRoute from './routes/privateRoute'
+import React from 'react';
+import './app.scss';
+import {Route, Switch, HashRouter, Redirect} from 'react-router-dom';
+import Dashboard from './pages/Dashboard/Dashboard';
+import Login from './pages/Login/Login';
+import ProtectedRoute from './routes/protectedRoute';
+import PrivateRoute from './routes/privateRoute';
+import { store } from '../store/storeUserData';
+import { connect } from 'react-redux';
+import { autoLogInUser } from './redux/user/user-actions';
 
-class App extends React.Component {
+class App extends React.Component {    
+
+    componentDidMount(){
+        const dataSaved = store.get('userData');
+        const { autoLogInUser } = this.props;
+        console.log(dataSaved)
+
+        if(dataSaved.userId && dataSaved.companyId){
+            console.log("ghola")
+            autoLogInUser({userId: dataSaved.userId, companyId: dataSaved.companyId})
+        }
+
+        console.log("cuantas veces pasa esto")
+    }
     
     render(){
         return(
@@ -23,4 +39,8 @@ class App extends React.Component {
     }
 }
 
-export default App;
+const mapDispatchToProps = dispatch => ({
+    autoLogInUser: (data) => dispatch(autoLogInUser(data))
+});  
+
+export default connect("",mapDispatchToProps)(App);

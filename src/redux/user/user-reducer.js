@@ -3,7 +3,7 @@ import UserActionTypes from './user-types';
 const INITIAL_STATE = {
   isAuthenticated: false,
   isFetching: false,
-  currentUser: null,
+  currentUser: {},
   profileStatus: undefined,
   isSetStatusFetching: false,
   setStatusError: undefined,

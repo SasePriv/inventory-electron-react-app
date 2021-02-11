@@ -1,42 +1,68 @@
 import React from 'react'
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux'
+import { setFormData, signInAsync } from '../../../../redux/signin/signin-actions';
+import { createStructuredSelector } from "reselect";
+import { selectSignUpFormData } from '../../../../redux/signin/signin-selectors'
 import './LoginForm.scss'
 
-const LoginForm = ({toggleStatus}) => {
+const LoginForm = ({toggleStatus, signInFormData, setFormData, signInAsync}) => {
+    
+    const handleChangeInput = (event, nameInput) => {
+        setFormData({[nameInput]: event.target.value });
+    }
 
-    // const history = useHistory();
+    const handleLogin = () => {
+        signInAsync(signInFormData);
+    }
 
     return(
         <div className=" p-5 LoginForm">
             <h4>Inciar Sesion</h4>
 
             <div className="form-group">
-                <label className="label">Selecionar una Empresa Registrada</label>
-                <select className="form-control" id="exampleFormControlSelect1" defaultValue="Selecciona una opción">
-                    <option hidden>Selecciona una opción</option>
-                    <option>PEPE ENTERPRISE</option>
-                </select>
-            </div>
-
-            <div className="form-group">
-                <div className="label">Usuario</div>
-                <input type="email" id="name" className="form-control" aria-describedby="emailHelp" name="usuario" placeholder="Ej:your_email@your_dominion.com"/>
+                <div className="label">Usuario o Email</div>
+                <input 
+                    type="email" 
+                    id="name" 
+                    className="form-control" 
+                    aria-describedby="emailHelp" 
+                    name="usuario" 
+                    placeholder="Ej: your_email@your_dominion.com"
+                    onChange={(e) => handleChangeInput(e, "username")}
+                    value={signInFormData.username}
+                />
             </div>
             <div className="form-group">
                 <div className="label">Contraseña</div>
-                <input type="password" className="form-control" name="password" laceholder="Password"/> 
+                <input 
+                    type="password" 
+                    className="form-control" 
+                    name="password" 
+                    laceholder="Password"
+                    onChange={(e) => handleChangeInput(e, "password")}
+                    value={signInFormData.password}
+                /> 
             </div>
 
             <div className="d-flex justify-content-between">
-                <Link to="/dashboard">
-                    <button className="btn btn-primary">Iniciar Session</button>
-                </Link>
+                {/* <Link to="/dashboard"> */}
+                <button onClick={handleLogin} className="btn btn-primary">Iniciar Session</button>
+                {/* </Link> */}
                 <div className="register" onClick={toggleStatus}>Registrar Empresa</div>
             </div>            
         </div>
     )
 }
 
+const mapStateToProps = createStructuredSelector({
+    signInFormData: selectSignUpFormData
+});
 
-export default connect()(LoginForm);
+const mapDispatchToProps = dispatch => ({
+    setFormData: (formData) => dispatch(setFormData(formData)),
+    signInAsync: (formData) => dispatch(signInAsync(formData))
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

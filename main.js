@@ -1,5 +1,5 @@
 const { BrowserWindow } = require('electron');
-const { user } = require('./backend/controllers/index')
+const { user, company } = require('./backend/controllers/index')
 
 function createWindow() {
     const win = new BrowserWindow({
@@ -22,5 +22,6 @@ function createWindow() {
 
 module.exports = {
     user,
+    company,
     createWindow
 }
