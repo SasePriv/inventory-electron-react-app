@@ -1,4 +1,4 @@
-const handleError = (error) => {
+export const handleError = (error) => {
 
     switch (error) {
         case "empty":
@@ -25,11 +25,15 @@ const handleError = (error) => {
         case "error-general":
             return "Se produjo un error en el servicio"
 
-        default:
-            break;
-    }
-}
+        case "email-not-exist":
+            return "El email o usuario no se encuentra registrado"
 
-module.exports = {
-    handleError
+        case "auth-fail":
+            return "Contraseña incorrecta"
+
+        case "error-company-login":
+            return "Error obteniendo la informacion de la cuenta"
+        default:
+            return "asd"            
+    }
 }

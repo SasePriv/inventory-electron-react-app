@@ -59,4 +59,9 @@ module.exports = {
     filename: 'app.js',
     path: path.resolve(__dirname, 'build', 'js'),
   },
+  externals: {
+    express: 'express',
+    bcrypt:'bcrypt',
+    sequelize:'sequelize',
+  },
 };

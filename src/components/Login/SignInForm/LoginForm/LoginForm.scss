@@ -6,19 +6,19 @@
     width: 100%;
 
     h4{
-        font-family: "tisaSansPro-Black";
+        // font-family: "tisaSansPro-Black";
     }
 
     .form-group{
         // padding: 10px;
         .label{
             padding: 10px 0px 5px 0px;
-            font-family: "tisaSansPro-Bold";
+            // font-family: "tisaSansPro-Bold";
         }
     }
 
     button{
-        font-family: "tisaSansPro-ExtraBold";
+        // font-family: "tisaSansPro-ExtraBold";
         background-color: #00AEFB;
         border-color: #00AEFB;
         margin-top: 5px;
@@ -29,5 +29,11 @@
         color: #00AEFB;
         font-size: 0.8rem;
         cursor: pointer;
+    }
+
+    .errorLoginInput{
+        color: red;
+        font-size: 0.7rem;
+        margin: 5px; 
     }
 }

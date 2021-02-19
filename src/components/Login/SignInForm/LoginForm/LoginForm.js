@@ -3,10 +3,11 @@ import { Link } from "react-router-dom";
 import { connect } from 'react-redux'
 import { setFormData, signInAsync } from '../../../../redux/signin/signin-actions';
 import { createStructuredSelector } from "reselect";
-import { selectSignUpFormData } from '../../../../redux/signin/signin-selectors'
+import { selectSignUpFormData, selectSignInFailure, selectSignInError } from '../../../../redux/signin/signin-selectors'
+
 import './LoginForm.scss'
 
-const LoginForm = ({toggleStatus, signInFormData, setFormData, signInAsync}) => {
+const LoginForm = ({toggleStatus, signInFormData, setFormData, signInAsync, signInFailure, signInError}) => {
     
     const handleChangeInput = (event, nameInput) => {
         setFormData({[nameInput]: event.target.value });
@@ -45,6 +46,14 @@ const LoginForm = ({toggleStatus, signInFormData, setFormData, signInAsync}) => 
                 /> 
             </div>
 
+            {
+                signInFailure
+               ?
+               <div className="errorLoginInput">*{signInError}</div>
+               :
+               null
+            }            
+
             <div className="d-flex justify-content-between">
                 {/* <Link to="/dashboard"> */}
                 <button onClick={handleLogin} className="btn btn-primary">Iniciar Session</button>
@@ -56,12 +65,15 @@ const LoginForm = ({toggleStatus, signInFormData, setFormData, signInAsync}) => 
 }
 
 const mapStateToProps = createStructuredSelector({
-    signInFormData: selectSignUpFormData
+    signInFormData: selectSignUpFormData,    
+    signInFailure: selectSignInFailure,
+    signInError: selectSignInError
 });
 
 const mapDispatchToProps = dispatch => ({
     setFormData: (formData) => dispatch(setFormData(formData)),
-    signInAsync: (formData) => dispatch(signInAsync(formData))
+    signInAsync: (formData) => dispatch(signInAsync(formData)),
+    
 });
 
 

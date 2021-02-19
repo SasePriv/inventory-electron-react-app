@@ -11,18 +11,18 @@ import { autoLogInUser } from './redux/user/user-actions';
 
 class App extends React.Component {    
 
-    componentDidMount(){
-        const dataSaved = store.get('userData');
-        const { autoLogInUser } = this.props;
-        console.log(dataSaved)
+    // componentDidMount(){
+    //     const dataSaved = store.get('userData');
+    //     const { autoLogInUser } = this.props;
+    //     console.log(dataSaved)
 
-        if(dataSaved.userId && dataSaved.companyId){
-            console.log("ghola")
-            autoLogInUser({userId: dataSaved.userId, companyId: dataSaved.companyId})
-        }
+    //     if(dataSaved.userId && dataSaved.companyId){
+    //         console.log("ghola")
+    //         autoLogInUser({userId: dataSaved.userId, companyId: dataSaved.companyId})
+    //     }
 
-        console.log("cuantas veces pasa esto")
-    }
+    //     console.log("cuantas veces pasa esto")
+    // }
     
     render(){
         return(

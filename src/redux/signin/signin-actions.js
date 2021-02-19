@@ -2,6 +2,8 @@ import SigninActionTypes from "./signin-types";
 import { loginAsync } from '../../services/signIn/signInService'
 import { setCurrentUser } from '../user/user-actions'
 import { setCurrentCompany } from '../company/company-actions'
+import { store } from '../../../store/storeUserData'
+import { handleError } from '../../utils/handleErrors'
 
 export const setFormData = (formData) => ({
     type: SigninActionTypes.SET_FORM_DATA,
@@ -56,11 +58,15 @@ export const signInAsync = (signInData) => {
                 dispatch(signInSucces());
                 dispatch(setCurrentUser(data.dataUser));
                 dispatch(setCurrentCompany(data.dataCompany));
+                store.set('userData', { userId: data.dataUser._id, companyId: data.dataCompany._id });
             }else{
                 dispatch(signInFailure(true));
-                dispatch(signInError(data.message))
+                dispatch(signInError(handleError(data.message)))
+
+
             }
         } catch (error) {
+            console.log(error)
             dispatch(signInFailure(true));
             dispatch(signInError(error))
         }

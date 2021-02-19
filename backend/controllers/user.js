@@ -19,7 +19,7 @@ exports.createUserWithCompany = async (data) => {
 
         let uperCompanyName = companyName.toUpperCase();
     
-        const findEmail = UserModel.find({email: email.toLowerCase(), companyName: uperCompanyName});
+        const findEmail = await UserModel.find({email: email.toLowerCase(), companyName: uperCompanyName});
     
         if (findEmail.length >= 1) {
             
@@ -91,8 +91,7 @@ exports.login = async(data) => {
     } = data;
 
     try {
-        
-        console.log(data)
+                
 
         let user = null;
 
@@ -104,12 +103,12 @@ exports.login = async(data) => {
 
     
         if (!user) {
-            return({message: "Email does not exist"})
+            return({message: "email-not-exist"})
         }
 
         bcrypt.compare(password, user.password,  async(err, result) => {
             if(err){
-                return({message: "Auth failed"})
+                return({message: "auth-fail"})
             }
         })
 
@@ -118,7 +117,7 @@ exports.login = async(data) => {
         const companyUser = await CompanyModel.findById(companyId);
 
         if(!companyUser){
-            return({message: "error-company"})
+            return({message: "error-company-login"})
         }
         
         const dataUser = {
@@ -136,10 +135,8 @@ exports.login = async(data) => {
     } catch (error) {
         console.log("Error in log in")
         console.log(error)
-        return({message: "Error with log in"})
-    }
-
-    // return({message: "error-general"})
+        return({message: "error-general"})
+    }    
 
 }
 

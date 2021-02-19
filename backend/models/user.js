@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const bcrypt = require('bcrypt');
 
 const userSchema = mongoose.Schema(
     {
@@ -35,7 +34,7 @@ const userSchema = mongoose.Schema(
         required: true,
       },
       companyId: {
-        type: mongoose.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         // required: true
       },
       phone: {
