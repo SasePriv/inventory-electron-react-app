@@ -1,7 +1,6 @@
 import React from 'react'
 
 import LeftNav from '../../components/NavBar/LeftNav/LeftNav'
-import CardContent from '../../components/Content/CardContent/CardContent'
 import Invetory from '../Inventory/Inventory'
 
 import './Dashboard.scss'

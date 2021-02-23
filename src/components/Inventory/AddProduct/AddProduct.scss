@@ -1,0 +1,13 @@
+.AddProduct{
+  color: #303f9f;
+  font-weight: bold;
+  font-size: 1.2rem;
+  cursor: pointer;
+  .textProduct{
+    margin: 0 10px;
+  }
+}
+
+.AddProduct:active {
+  color: #6070d8;
+}

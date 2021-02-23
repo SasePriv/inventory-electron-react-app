@@ -1,0 +1,39 @@
+.CustomSearch{
+
+    margin: 0 10px;
+
+    .MuiGrid-container {
+        height: 31px;
+        border: 1px solid #dedede;
+        padding: 2px 15px 2px 15px;
+        border-radius: 15px;
+    }
+
+    .inputSearch{
+        input{
+            padding: 0px;
+            padding-bottom: 3px;
+            padding-left: 3px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: #4b4949;
+        }  
+    }
+
+    .iconSearch{
+        margin-left: 0px;
+        color: #7c7c7c;
+    }
+
+    .MuiInput-underline:before {
+        border-bottom: unset;
+    }
+
+    .MuiInput-underline:after{
+        border-bottom: unset;
+    }
+
+    .MuiInput-underline:hover:not(.Mui-disabled):before {
+        border-bottom: unset;
+    }
+}
