@@ -50,6 +50,14 @@ module.exports = {
         test: /\.mp4$/,
         use: 'file-loader?name=videos/[name].[ext]',
       },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      },
     ]
   },
   resolve: {

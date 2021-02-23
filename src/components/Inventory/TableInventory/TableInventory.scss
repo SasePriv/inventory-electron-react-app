@@ -1,0 +1,41 @@
+.TableInventory{
+ 
+  .MuiTableCell-root {
+    padding: 6px;
+  }
+
+  .headerTable{
+    .MuiTableCell-head {
+      color: #cecece;
+      // font-weight: 600;
+      // line-height: 1.5rem;
+    }
+  }
+
+  .eachProductRow{
+    .imageTableRow{
+      border: 1px solid #cecece;
+      border-radius: 10px;
+      padding: 2px;
+      width: 50px;
+      height: 50px;
+    }
+
+    td{
+      color: #7c7c7c;
+      font-weight: 600;
+    }
+  }
+
+  .eachDetailProduct{
+    .imageDetailRow{
+      border: 1px solid #cecece;
+      border-radius: 10px;
+      padding: 2px;
+      width: 120px;
+      height: 120px;
+      margin-left: 10px;
+    }
+  }
+
+}
