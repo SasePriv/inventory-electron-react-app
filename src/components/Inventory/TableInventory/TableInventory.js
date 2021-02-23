@@ -15,6 +15,8 @@ import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 import example from '../../../../assets/images/example1.png'
 
@@ -54,35 +56,48 @@ const Row = ({row}) => {
       <TableRow className='eachDetailProduct'>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box margin={1}>
+            <Box margin={1} className="containerDetail">
 
               <Grid container spacing={3}>
-                <Grid item xs={2}>
+                <Grid item xs={2} className="imagesOption">
                   <img className='imageDetailRow' alt="imagen-producto" src={example}/>
                   <div>1 of 3</div>
-                  <div>+ Add Image</div>
+                  <div className='addImageBtn'>+ Add Image</div>
                 </Grid>
                 <Grid item xs={10}>
-                  <Grid container xs={12}>
-                    <Grid item xs={4}>
-                      asdasdsa
+                  <Grid container xs={12} spacing={3}>
+                    <Grid item xs={5}>
+                      <TextField className="w-100" id="standard-basic" label="Nombre" />
                     </Grid>
-                    <Grid item xs={4}>
-                      asdasdsa
+                    <Grid item xs={2}>
+                      <TextField className="w-100" id="standard-basic" label="Precio" />
                     </Grid>
-                    <Grid item xs={4}>
-                      asdasdsa
+                    <Grid item xs={2}>
+                      <TextField className="w-100" id="standard-basic" label="Costo" />
+                    </Grid>
+                    <Grid item xs={3}>
+                      <TextField className="w-100" id="standard-basic" label="SKU" />
                     </Grid>
                   </Grid>
-                  <Grid container xs={12}>
-                    <Grid item xs={4}>
-                      asdasdsa
+                  <Grid container xs={12} spacing={3}>
+                    <Grid item xs={3}>
+                      <TextField className="w-100" id="standard-basic" label="Marca" />
                     </Grid>
-                    <Grid item xs={4}>
-                      asdasdsa
+                    <Grid item xs={3}>
+                     <TextField className="w-100" id="standard-basic" label="Provedor" />
                     </Grid>
-                    <Grid item xs={4}>
-                      asdasdsa
+                    <Grid item xs={3}>
+                      <TextField className="w-100" id="standard-basic" label="Stock" />
+                    </Grid>
+                    <Grid item xs={3}>
+                      <TextField className="w-100" id="standard-basic" label="Precio en Bolivares" />
+                    </Grid>
+                  </Grid>
+                  <Grid container xs={12} spacing={3}>
+                    <Grid item xs={12} className="mt-4 btnSaveContainer">
+                      <Button variant="contained" color="primary">
+                        Guardar
+                      </Button>
                     </Grid>
                   </Grid>
                 </Grid>

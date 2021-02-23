@@ -24,17 +24,68 @@
     td{
       color: #7c7c7c;
       font-weight: 600;
+      letter-spacing: 0.5px;
     }
   }
 
   .eachDetailProduct{
-    .imageDetailRow{
+
+    .imagesOption{
+
+      text-align: center;
+
+      .imageDetailRow{
+        // border: 1px solid #cecece;
+        border-radius: 10px;
+        padding: 4px;
+        width: 120px;
+        height: 120px;
+        margin-left: 10px;
+      }
+
+      div{
+        font-size: 0.8rem;
+        margin: 10px 0px;
+        color: #7c7c7c;
+      font-weight: 600;
+      letter-spacing: 0.5px; 
+      }
+
+      .addImageBtn{
+        color: #303f9f;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none; 
+      }
+
+      .addImageBtn:active{
+        color: #6070d8;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none; 
+      }
+
+    }
+
+    .containerDetail{
       border: 1px solid #cecece;
       border-radius: 10px;
-      padding: 2px;
-      width: 120px;
-      height: 120px;
-      margin-left: 10px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    input{
+      font-size: 0.9rem;
+      color: #7c7c7c;
+      font-weight: 600;
+      letter-spacing: 0.5px;  
+    }
+
+    .btnSaveContainer{
+      text-align: right;
     }
   }
 
