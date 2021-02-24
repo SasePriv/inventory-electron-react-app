@@ -65,35 +65,35 @@ const Row = ({row}) => {
                   <div className='addImageBtn'>+ Add Image</div>
                 </Grid>
                 <Grid item xs={10}>
-                  <Grid container xs={12} spacing={3}>
+                  <Grid container item xs={12} spacing={3}>
                     <Grid item xs={5}>
-                      <TextField className="w-100" id="standard-basic" label="Nombre" />
+                      <TextField className="w-100" id="standard-basic" label="Nombre" value='Nombre de Ejemplo'/>
                     </Grid>
                     <Grid item xs={2}>
-                      <TextField className="w-100" id="standard-basic" label="Precio" />
+                      <TextField className="w-100" id="standard-basic" label="Precio" value='45'/>
                     </Grid>
                     <Grid item xs={2}>
-                      <TextField className="w-100" id="standard-basic" label="Costo" />
+                      <TextField className="w-100" id="standard-basic" label="Costo" value='25'/>
                     </Grid>
                     <Grid item xs={3}>
-                      <TextField className="w-100" id="standard-basic" label="SKU" />
+                      <TextField className="w-100" id="standard-basic" label="SKU" value='145-lke'/>
                     </Grid>
                   </Grid>
-                  <Grid container xs={12} spacing={3}>
+                  <Grid container item xs={12} spacing={3}>
                     <Grid item xs={3}>
-                      <TextField className="w-100" id="standard-basic" label="Marca" />
+                      <TextField className="w-100" id="standard-basic" label="Marca" value='Teen'/>
                     </Grid>
                     <Grid item xs={3}>
-                     <TextField className="w-100" id="standard-basic" label="Provedor" />
+                     <TextField className="w-100" id="standard-basic" label="Provedor" value='cumaca.com'/>
                     </Grid>
                     <Grid item xs={3}>
-                      <TextField className="w-100" id="standard-basic" label="Stock" />
+                      <TextField className="w-100" id="standard-basic" label="Stock" value='5'/>
                     </Grid>
                     <Grid item xs={3}>
-                      <TextField className="w-100" id="standard-basic" label="Precio en Bolivares" />
+                      <TextField className="w-100" id="standard-basic" label="Precio en Bolivares" value='1.000.000'/>
                     </Grid>
                   </Grid>
-                  <Grid container xs={12} spacing={3}>
+                  <Grid container item xs={12} spacing={3}>
                     <Grid item xs={12} className="mt-4 btnSaveContainer">
                       <Button variant="contained" color="primary">
                         Guardar

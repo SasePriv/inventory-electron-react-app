@@ -19,3 +19,89 @@
   -ms-user-select: none;
   user-select: none; 
 }
+
+.formModal{
+
+  .addingImageContainer{
+    margin-top: 5px;
+  }
+
+  .containerImage{
+    width: 150px;
+    height: 150px;
+    border: 1px solid #cecece;
+    border-radius: 10px;
+    display: inline-block;
+    margin: 5px;
+
+    .clearIconBtn{
+      position: fixed;
+      background: red;
+      border-radius: 20px;
+      margin: 5px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .clearIconBtn:active{
+      background: rgb(179, 0, 0);
+    }
+
+    img{
+      display: block;
+      padding: 5px;
+    }
+
+    .addImageBtn{
+      display: block;
+      font-size: 4rem;
+      margin: auto;
+      margin-top: 40px;
+      color: #303f9f;
+      cursor: pointer;
+    }
+
+    .addImageBtn:hover{
+      color: #6070d8;
+    }
+
+    .addImageBtn:active{
+      color: #303f9f;
+    }
+  }
+
+  .dataProduct{
+
+
+    .createBtnContainer{
+      text-align: right;
+      .createBtn{
+        margin-top: 25px;
+      }
+      .createBtn:focus{
+        outline: none;
+      }
+    }
+
+    .closeModal{
+      margin-right: -10px;
+      cursor: pointer;
+      border-radius: 10px;
+      padding: 2px;
+    }
+
+    .closeModal:hover{
+      background-color: #cecece;
+    }
+
+  }
+
+}
+
+// .formModal:focus{
+//   outline: none;
+// }
+
+// .formModal:focus-visible{
+//   outline: none;
+// }
