@@ -49,7 +49,7 @@ const AddProduct = () => {
     <div>
       <div className='d-flex AddProduct' onClick={handleOpen}>
         <AddShoppingCartIcon />
-        <div className='textProduct'>Add product</div>
+        <div className='textProduct'>Añadir Producto</div>
       </div>
       <Modal
         aria-labelledby="transition-modal-title"
@@ -95,7 +95,7 @@ const AddProduct = () => {
                 <Grid container className='dataProduct'>
                   <Grid item xs={12} >
                     <div className='d-flex justify-content-between'>
-                      <h4>Datos del Producto</h4>
+                      <h4>Datos del Nuevo Producto</h4>
                       <ClearIcon className='closeModal' onClick={handleClose}/>
                     </div>
                   </Grid>

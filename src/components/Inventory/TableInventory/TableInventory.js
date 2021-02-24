@@ -10,14 +10,14 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import MenuItem from '@material-ui/core/MenuItem';
 
+import CustomSelect from '../../Utils/CustomSelect/CustomSelect';
 import example from '../../../../assets/images/example1.png'
 
 import './TableInventory.scss'
@@ -49,7 +49,7 @@ const Row = ({row}) => {
           {row.sku}
         </TableCell>
         <TableCell align="left">{row.name}</TableCell>
-        <TableCell align="left">{row.price}</TableCell>
+        <TableCell align="left"><CustomSelect /></TableCell>
         <TableCell align="left">{row.price}</TableCell>
         <TableCell align="left">{row.stock}</TableCell>
       </TableRow>
@@ -84,7 +84,19 @@ const Row = ({row}) => {
                       <TextField className="w-100" id="standard-basic" label="Marca" value='Teen'/>
                     </Grid>
                     <Grid item xs={3}>
-                     <TextField className="w-100" id="standard-basic" label="Provedor" value='cumaca.com'/>
+                      <TextField
+                        id="standard-select-currency"
+                        select
+                        label="Provedor"
+                        className='w-100'
+                        // value={currency}
+                        // onChange={handleChange}
+                        // helperText="Please select your currency"
+                      >
+                          <MenuItem  value={'hola'}>
+                            Hola
+                          </MenuItem>
+                      </TextField>
                     </Grid>
                     <Grid item xs={3}>
                       <TextField className="w-100" id="standard-basic" label="Stock" value='5'/>
@@ -101,37 +113,7 @@ const Row = ({row}) => {
                     </Grid>
                   </Grid>
                 </Grid>
-
               </Grid>
-
-              {/* <Typography variant="h6" gutterBottom component="div">
-                History
-              </Typography> */}
-
-              {/* <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Customer</TableCell>
-                    <TableCell align="right">Amount</TableCell>
-                    <TableCell align="right">Total price ($)</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {row.history.map((historyRow) => (
-                    <TableRow key={historyRow.date}>
-                      <TableCell component="th" scope="row">
-                        {historyRow.date}
-                      </TableCell>
-                      <TableCell>{historyRow.customerId}</TableCell>
-                      <TableCell align="right">{historyRow.amount}</TableCell>
-                      <TableCell align="right">
-                        {Math.round(historyRow.amount * row.price * 100) / 100}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table> */}
             </Box>
           </Collapse>
         </TableCell>

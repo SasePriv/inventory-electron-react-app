@@ -23,9 +23,17 @@ const Inventory = () => {
           <HeaderInventory />
         </Grid>
         <Grid item xs={12}>
-          <TableInventory data={exampleDataTable}/>
+          <div>
+            <TableInventory data={exampleDataTable}/>
+          </div>
         </Grid>
       </Grid>
+      <div className="moreOptionInventory">
+        <div className='d-flex justify-content-around'>
+          <div>Manejar Categorias</div>
+          <div>Manejar Marcas</div>
+        </div>
+      </div>
     </div>
   )
 

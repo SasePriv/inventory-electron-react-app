@@ -1,7 +1,7 @@
 .AddProduct{
   color: #303f9f;
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1rem;
   cursor: pointer;
   .textProduct{
     margin: 0 10px;
@@ -21,6 +21,12 @@
 }
 
 .formModal{
+
+  h4{
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #4b4949;
+  }
 
   .addingImageContainer{
     margin-top: 5px;
