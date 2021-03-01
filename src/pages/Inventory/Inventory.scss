@@ -1,11 +1,14 @@
 .inventoryPage{
 
-    .moreOptionInventory{
-      border-top: 1px solid black;
-      bottom: 0;
-      position: fixed;
-      width: 100%;
-      margin-left: -200px;
+  .tableContainer{
+    overflow-y: scroll;
+    height: 82vh;
+    @media screen and ( max-height: 970px){
+      height: 80vh;
     }
+    @media screen and ( max-height: 880px){
+      height: 78vh;
+    }
+  }
 
 }

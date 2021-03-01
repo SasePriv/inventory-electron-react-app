@@ -2,6 +2,7 @@ import React from 'react';
 
 import HeaderInventory from '../../components/Inventory/HeaderInventory/HeaderInventory';
 import TableInventory from '../../components/Inventory/TableInventory/TableInventory';
+import MoreOptionInventory from '../../components/Inventory/MoreOptionInventory/MoreOptionInventory'
 
 import Grid from '@material-ui/core/Grid';
 
@@ -23,17 +24,12 @@ const Inventory = () => {
           <HeaderInventory />
         </Grid>
         <Grid item xs={12}>
-          <div>
+          <div className='tableContainer'>
             <TableInventory data={exampleDataTable}/>
           </div>
         </Grid>
       </Grid>
-      <div className="moreOptionInventory">
-        <div className='d-flex justify-content-around'>
-          <div>Manejar Categorias</div>
-          <div>Manejar Marcas</div>
-        </div>
-      </div>
+      <MoreOptionInventory />
     </div>
   )
 
