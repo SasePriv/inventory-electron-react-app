@@ -10,22 +10,20 @@ const INITIAL_STATE = {
 };
 
 const UserReducer = (state = INITIAL_STATE, action) => {
-		const { type, payload } = action;
-		
-    switch (type) {
-      
-      case(UserActionTypes.SET_CURRENT_USER): {
-        return {
-          ...state,
-          isAuthenticated: true,
-          isFetching: false,
-          currentUser: payload,
-        }
-      }
-
-      default:
-        return state;
+  const {type, payload} = action;
+  switch (type) {
+    case (UserActionTypes.SET_CURRENT_USER): {
+      return {
+        ...state,
+        isAuthenticated: true,
+        isFetching: false,
+        currentUser: payload,
+      };
     }
-  };
-  
-  export default UserReducer;
+
+    default:
+      return state;
+  }
+};
+
+export default UserReducer;

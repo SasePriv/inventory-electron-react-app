@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import {makeStyles, useTheme} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -23,7 +24,7 @@ import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
-import './LeftNav.scss'
+import './LeftNav.scss';
 
 const drawerWidth = 200;
 
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
-    }),    
+    }),
   },
   appBarShift: {
     marginLeft: drawerWidth,
@@ -86,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(2),
-    marginTop: "30px"
+    marginTop: '30px',
     // background: "#f5f6fb",
   },
   nested: {
@@ -94,8 +95,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function LeftNav({titleWindow, children}) {
-
+function LeftNav({titleWindow, children}) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
@@ -111,8 +111,8 @@ export default function LeftNav({titleWindow, children}) {
   };
 
   const handleClickInventory = () => {
-    setOpenInventory(!openInventory)
-  }
+    setOpenInventory(!openInventory);
+  };
 
   return (
     <div className={`${classes.root} leftNav`}>
@@ -158,7 +158,7 @@ export default function LeftNav({titleWindow, children}) {
           }),
         }}
       >
-        <div className={classes.toolbar} style={{minHeight: "30px"}}>          
+        <div className={classes.toolbar} style={{minHeight: '30px'}}>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
@@ -206,7 +206,7 @@ export default function LeftNav({titleWindow, children}) {
         <div className="userPArt">
           <Divider />
           <div>
-            
+
           </div>
         </div>
 
@@ -223,3 +223,10 @@ export default function LeftNav({titleWindow, children}) {
     </div>
   );
 }
+
+LeftNav.propTypes = {
+  titleWindow: PropTypes.string,
+  children: PropTypes.array,
+};
+
+export default LeftNav;

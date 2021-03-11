@@ -1,9 +1,8 @@
-import { createSelector } from "reselect";
+import {createSelector} from 'reselect';
 
-const selectUser = state => state.user;
+const selectUser = (state) => state.user;
 
 export const selectIsUserAuthenticated = createSelector(
-  [selectUser],
-  user => user.isAuthenticated
+    [selectUser],
+    (user) => user.isAuthenticated,
 );
-

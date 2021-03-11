@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema(
     {
@@ -8,17 +8,18 @@ const userSchema = mongoose.Schema(
         required: true,
       },
       email: {
-        type: String,        
+        type: String,
         unique: true,
         match: [
+          // eslint-disable-next-line max-len
           /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
-          "Please enter a valid email",
+          'Please enter a valid email',
         ],
       },
       username: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
       },
       password: {
         type: String,
@@ -27,7 +28,7 @@ const userSchema = mongoose.Schema(
       role: {
         type: String,
         required: true,
-        enum: ["admin", "moderator", "readOnly"]
+        enum: ['admin', 'moderator', 'readOnly'],
       },
       companyName: {
         type: String,
@@ -39,11 +40,11 @@ const userSchema = mongoose.Schema(
       },
       phone: {
         type: Number,
-      }
+      },
     },
     {
       timestamps: true,
-    }
+    },
 );
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model('User', userSchema);
