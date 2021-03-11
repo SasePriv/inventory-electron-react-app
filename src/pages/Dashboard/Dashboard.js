@@ -12,7 +12,7 @@ const Dashboard = () => {
     return(
         <div className="fondo">
             <LeftNav titleWindow="Dashboard">
-                <Invetory />
+                {/* <Invetory /> */}
             </LeftNav>
         </div>
     )

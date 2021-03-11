@@ -1,8 +1,67 @@
 .moreOptionInventory{
-  border-top: 1px solid black;
+  // border-top: 1px solid #ebebeb;
   bottom: 0;
-  position: fixed;
+  // position: fixed;
   width: 100%;
-  margin-left: -200px;
-  height: 50px;
+  // margin-left: -200px;
+  // height: 50px;
+  padding-top: 10px;
 }
+
+.morePopoverContent{
+
+  height: 400px;
+  width: 200px;
+
+  h5{
+    font-weight: bolder;
+    color: #4b4949;
+  }
+
+  .tableContainer{
+    height: 260px;
+    overflow: scroll;
+    overflow-x: hidden;
+
+    table{
+      width: 100%;
+      th{
+        padding: 5px 0px;
+        color: #7c7c7c;        
+      }
+      tr:hover{
+        background-color: #6070d85e;
+      }
+    }
+
+    .eliminateBtn{
+      width: 35px;
+      text-align: center;
+      color: red;
+      cursor: pointer;
+      // padding: 5px 0px;
+    }
+  }
+
+  .inputAndBtnAddCategory{
+    input{
+      padding: 12.5px 14px;
+      font-size: 0.9rem;
+    }
+
+    .addCategoryIcon{
+      cursor: pointer;
+      color: #303f9f;
+    }
+
+    .addCategoryIcon:hover{      
+      color: #6070d8;
+    }
+
+    .addCategoryIcon:active{      
+      color: #303f9f;
+    }
+  }
+
+}
+

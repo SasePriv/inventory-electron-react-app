@@ -11,7 +11,8 @@ import Button from '@material-ui/core/Button';
 import ClearIcon from '@material-ui/icons/Clear';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 
-import example from '../../../../assets/images/example1.png'
+import { connect } from 'react-redux';
+import { createStructuredSelector } from "reselect";
 
 import './AddProduct.scss';
 
@@ -36,6 +37,13 @@ const AddProduct = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
+  const [addImages, setAddImage] = React.useState([
+    {file: 1, name: "", path: "", type: ""},
+    {file: 2, name: "", path: "", type: ""},
+    {file: 3, name: "", path: "", type: ""},
+    {file: 4, name: "", path: "", type: ""},
+  ]);
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -43,6 +51,38 @@ const AddProduct = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handleAddImages = (event, idImage) => {
+    const file = event.target.files[0];
+
+    const updateImageState = addImages.map((eachImageState) => {
+
+      if(eachImageState.file === idImage){
+        eachImageState.name = file.name;
+        eachImageState.path = file.path;
+        eachImageState.type = file.path;
+      }
+
+      return eachImageState;
+    });
+
+    setAddImage(updateImageState);
+  };
+
+  const handleCloseAddImages = (idImage) => {
+    const updateImageState = addImages.map((eachImageState) => {
+
+      if(eachImageState.file === idImage){
+        eachImageState.name = "";
+        eachImageState.path = "";
+        eachImageState.type = "";
+      }
+
+      return eachImageState;
+    });
+
+    setAddImage(updateImageState);
+  }
 
 
   return(
@@ -70,24 +110,80 @@ const AddProduct = () => {
                 <Grid item container >
                   <Grid item xs={12}><h4>Imagenes del Producto</h4></Grid>
                   <Grid item xs={12} className='addingImageContainer'>
-                      <div className='containerImage'>
-                        <div className='clearIconBtn'>
-                          <ClearIcon />
+                      {
+                        addImages[0].name !== "" ? 
+                      
+                        <div className='containerImage'>
+                          <div className='clearIconBtn'>
+                            <ClearIcon onClick={() => handleCloseAddImages(1)}/>
+                          </div>
+                          <img alt='images' src={addImages[0].path} width={150} height={150}/>
                         </div>
-                        <img alt='images' src={example} width={150} height={150}/>
-                      </div>
-                      <div className='containerImage'>
-                        {/* <img alt='images' src={example} width={150} height={150}/> */}
-                        <AddBoxIcon className='addImageBtn'/>
-                      </div>
+                        
+                        : 
+
+                        <label className='containerImage'>
+                          <AddBoxIcon className='addImageBtn'/>
+                          <input type="file" onChange={(e) => handleAddImages(e, 1)}/>
+                        </label>
+
+                      }
+                      {
+                        addImages[1].name !== "" ? 
+                      
+                        <div className='containerImage'>
+                          <div className='clearIconBtn'>
+                            <ClearIcon onClick={() => handleCloseAddImages(2)}/>
+                          </div>
+                          <img alt='images' src={addImages[1].path} width={150} height={150}/>
+                        </div>
+                        
+                        : 
+
+                        <label className='containerImage'>
+                          <AddBoxIcon className='addImageBtn'/>
+                          <input type="file" onChange={(e) => handleAddImages(e, 2)}/>
+                        </label>
+
+                      }
                   </Grid>
                   <Grid item xs={12}>
-                      <div className='containerImage'>
-                        {/* <img alt='images' src={example} width={150} height={150}/> */}
-                      </div>
-                      <div className='containerImage'>
-                        {/* <img alt='images' src={example} width={150} height={150}/> */}
-                      </div>
+                      {
+                        addImages[2].name !== "" ? 
+                      
+                        <div className='containerImage'>
+                          <div className='clearIconBtn'>
+                            <ClearIcon onClick={() => handleCloseAddImages(3)}/>
+                          </div>
+                          <img alt='images' src={addImages[2].path} width={150} height={150}/>
+                        </div>
+                        
+                        : 
+
+                        <label className='containerImage'>
+                          <AddBoxIcon className='addImageBtn'/>
+                          <input type="file" onChange={(e) => handleAddImages(e, 3)}/>
+                        </label>
+
+                      }
+                      {
+                        addImages[3].name !== "" ? 
+                      
+                        <div className='containerImage'>
+                          <div className='clearIconBtn'>
+                            <ClearIcon onClick={() => handleCloseAddImages(4)}/>
+                          </div>
+                          <img alt='images' src={addImages[3].path} width={150} height={150}/>
+                        </div>
+                        
+                        : 
+
+                        <label className='containerImage'>
+                          <AddBoxIcon className='addImageBtn'/>
+                          <input type="file" onChange={(e) => handleAddImages(e, 4)}/>
+                        </label>
+
+                      }
                   </Grid>
                 </Grid>
               </Grid>
@@ -133,8 +229,6 @@ const AddProduct = () => {
                 </Grid>
               </Grid>
             </Grid>
-            {/* <h2 id="transition-modal-title">Transition modal</h2>
-            <p id="transition-modal-description">react-transition-group animates me.</p> */}
           </div>
         </Fade>
       </Modal>
@@ -142,4 +236,12 @@ const AddProduct = () => {
   )
 }
 
-export default AddProduct;
+const mapStateToProps = createStructuredSelector({
+
+})
+
+const mapDispatchToProps = dispatch => ({
+
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddProduct);

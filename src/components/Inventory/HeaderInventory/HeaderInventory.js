@@ -14,7 +14,6 @@ const dataExample = [
 
 const HeaderInventory = () => {
 
-
     return(
         <div className='HeaderInvetory'>
             <div className="d-flex justify-content-between align-items-center">

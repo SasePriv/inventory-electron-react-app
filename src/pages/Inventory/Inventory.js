@@ -3,8 +3,10 @@ import React from 'react';
 import HeaderInventory from '../../components/Inventory/HeaderInventory/HeaderInventory';
 import TableInventory from '../../components/Inventory/TableInventory/TableInventory';
 import MoreOptionInventory from '../../components/Inventory/MoreOptionInventory/MoreOptionInventory'
+import LeftNav from '../../components/NavBar/LeftNav/LeftNav'
 
 import Grid from '@material-ui/core/Grid';
+
 
 import './Inventory.scss';
 
@@ -19,17 +21,19 @@ const Inventory = () => {
 
   return(
     <div className="inventoryPage">
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <HeaderInventory />
+      <LeftNav>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <HeaderInventory />
+          </Grid>
+          <Grid item xs={12}>
+            <div className='tableContainer'>
+              <TableInventory data={exampleDataTable}/>
+            </div>
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <div className='tableContainer'>
-            <TableInventory data={exampleDataTable}/>
-          </div>
-        </Grid>
-      </Grid>
-      <MoreOptionInventory />
+        <MoreOptionInventory />
+      </LeftNav>
     </div>
   )
 
