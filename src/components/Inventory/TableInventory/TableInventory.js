@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
@@ -18,9 +19,9 @@ import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 
 import CustomSelect from '../../Utils/CustomSelect/CustomSelect';
-import example from '../../../../assets/images/example1.png'
+import example from '../../../../assets/images/example1.png';
 
-import './TableInventory.scss'
+import './TableInventory.scss';
 
 const useRowStyles = makeStyles({
   root: {
@@ -54,7 +55,7 @@ const Row = ({row}) => {
         <TableCell align="left">{row.stock}</TableCell>
       </TableRow>
       <TableRow className='eachDetailProduct'>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
+        <TableCell style={{paddingBottom: 0, paddingTop: 0}} colSpan={7}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1} className="containerDetail">
 
@@ -67,16 +68,36 @@ const Row = ({row}) => {
                 <Grid item xs={10}>
                   <Grid container item xs={12} spacing={3}>
                     <Grid item xs={5}>
-                      <TextField className="w-100" id="standard-basic" label="Nombre" value='Nombre de Ejemplo'/>
+                      <TextField
+                        className="w-100"
+                        id="standard-basic"
+                        label="Nombre"
+                        value='Nombre de Ejemplo'
+                      />
                     </Grid>
                     <Grid item xs={2}>
-                      <TextField className="w-100" id="standard-basic" label="Precio" value='45'/>
+                      <TextField
+                        className="w-100"
+                        id="standard-basic"
+                        label="Precio"
+                        value='45'
+                      />
                     </Grid>
                     <Grid item xs={2}>
-                      <TextField className="w-100" id="standard-basic" label="Costo" value='25'/>
+                      <TextField
+                        className="w-100"
+                        id="standard-basic"
+                        label="Costo"
+                        value='25'
+                      />
                     </Grid>
                     <Grid item xs={3}>
-                      <TextField className="w-100" id="standard-basic" label="SKU" value='145-lke'/>
+                      <TextField
+                        className="w-100"
+                        id="standard-basic"
+                        label="SKU"
+                        value='145-lke'
+                      />
                     </Grid>
                   </Grid>
                   <Grid container item xs={12} spacing={3}>
@@ -93,16 +114,26 @@ const Row = ({row}) => {
                         // onChange={handleChange}
                         // helperText="Please select your currency"
                       >
-                          <MenuItem  value={'hola'}>
+                        <MenuItem value={'hola'}>
                             Hola
-                          </MenuItem>
+                        </MenuItem>
                       </TextField>
                     </Grid>
                     <Grid item xs={3}>
-                      <TextField className="w-100" id="standard-basic" label="Stock" value='5'/>
+                      <TextField
+                        className="w-100"
+                        id="standard-basic"
+                        label="Stock"
+                        value='5'
+                      />
                     </Grid>
                     <Grid item xs={3}>
-                      <TextField className="w-100" id="standard-basic" label="Precio en Bolivares" value='1.000.000'/>
+                      <TextField
+                        className="w-100"
+                        id="standard-basic"
+                        label="Precio en Bolivares"
+                        value='1.000.000'
+                      />
                     </Grid>
                   </Grid>
                   <Grid container item xs={12} spacing={3}>
@@ -120,7 +151,11 @@ const Row = ({row}) => {
       </TableRow>
     </React.Fragment>
   );
-}
+};
+
+Row.propTypes = {
+  row: PropTypes.object,
+};
 
 const TableInventory = ({data}) => {
   return (
@@ -146,6 +181,10 @@ const TableInventory = ({data}) => {
       </Table>
     </TableContainer>
   );
-}
+};
+
+TableInventory.propTypes = {
+  data: PropTypes.array,
+};
 
 export default TableInventory;

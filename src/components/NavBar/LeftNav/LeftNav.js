@@ -24,6 +24,8 @@ import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
+
+// Styles
 import './LeftNav.scss';
 
 const drawerWidth = 200;
@@ -92,7 +94,7 @@ const useStyles = makeStyles((theme) => ({
   },
   nested: {
     paddingLeft: theme.spacing(4),
-  }
+  },
 }));
 
 function LeftNav({titleWindow, children}) {
@@ -226,7 +228,7 @@ function LeftNav({titleWindow, children}) {
 
 LeftNav.propTypes = {
   titleWindow: PropTypes.string,
-  children: PropTypes.array,
+  children: PropTypes.object,
 };
 
 export default LeftNav;
