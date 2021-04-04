@@ -51,7 +51,7 @@ const VendorsTable = () => {
                     align={column.align}
                     style={{minWidth: column.minWidth}}
                   >
-                    <div>{column.label}</div>
+                    {column.label}
                   </TableCell>
                 ))}
               </TableRow>

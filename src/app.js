@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import Inventory from './pages/Inventory/Inventory';
 import Login from './pages/Login/Login';
 import Vendors from './pages/vendors/Vendors';
+import Sales from './pages/Sales/Sales';
 
 // Routes Protection
 import ProtectedRoute from './routes/protectedRoute';
@@ -41,7 +42,8 @@ class App extends React.Component {
             <PrivateRoute exact path="/dashboard" component={Dashboard} />
             <PrivateRoute exact path="/inventory" component={Inventory} />
             <PrivateRoute exact path="/vendors" component={Vendors} />
-            <Redirect from="/" to="vendors" />
+            <PrivateRoute exact path="/sales" component={Sales} />
+            <Redirect from="/" to="inventory" />
           </Switch>
         </HashRouter>
       </div>

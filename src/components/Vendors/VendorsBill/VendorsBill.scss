@@ -1,0 +1,59 @@
+.vendorBillPaper{
+  width: 100%;
+  padding: 15px;
+  // margin-top: %;
+  .titleInovice{
+    font-size: 1.2rem;
+    font-weight: bolder;
+    color: #4b4949;
+  }
+
+  .tableContainer{
+    margin: 5px;
+    // height: 304.2px;
+    height: 47.3vh;
+
+    
+    @media screen and ( max-height: 970px){
+      height: 45vh;
+    }
+    @media screen and ( max-height: 950px){
+      height: 44vh;
+    }
+    @media screen and ( max-height: 920px){
+      height: 43vh;
+    }
+    @media screen and ( max-height: 900px){
+      height: 42vh;
+    }
+    @media screen and ( max-height: 890px){
+      height: 41.5vh;
+    }
+    @media screen and ( max-height: 880px){
+      height: 40vh;
+    }
+    @media screen and ( max-height: 860px){
+      height: 39vh;
+    }
+    @media screen and ( max-height: 845px){
+      height: 38vh;
+    }
+    @media screen and ( max-height: 830px){
+      height: 37vh;
+    }
+
+    th{
+      padding: 5px;
+    }
+
+    td{
+      padding: 5px;
+    }
+  }
+
+  .btnAddInvoice{
+    margin-top: 2px;
+    margin-bottom: 7px;
+    margin-right: 5px;
+  }
+}

@@ -24,6 +24,7 @@ import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
+import { Link } from 'react-router-dom';
 
 // Styles
 import './LeftNav.scss';
@@ -102,7 +103,7 @@ function LeftNav({titleWindow, children}) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
 
-  const [openInventory, setOpenInventory] = React.useState(false);
+  // const [openInventory, setOpenInventory] = React.useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -112,9 +113,9 @@ function LeftNav({titleWindow, children}) {
     setOpen(!open);
   };
 
-  const handleClickInventory = () => {
-    setOpenInventory(!openInventory);
-  };
+  // const handleClickInventory = () => {
+  //   setOpenInventory(!openInventory);
+  // };
 
   return (
     <div className={`${classes.root} leftNav`}>
@@ -168,11 +169,13 @@ function LeftNav({titleWindow, children}) {
         <Divider />
         <List>
 
-          <ListItem button onClick={handleClickInventory}>
-            <ListItemIcon><InboxIcon /></ListItemIcon>
-            <ListItemText primary="Inventario" />
-            {/* { openInventory ? <ExpandLess /> : <ExpandMore /> } */}
-          </ListItem>
+          <Link to="/inventory">
+            <ListItem button>
+              <ListItemIcon><InboxIcon /></ListItemIcon>
+              <ListItemText primary="Inventario" />
+              {/* { openInventory ? <ExpandLess /> : <ExpandMore /> } */}
+            </ListItem>
+          </Link>
           {/* <Collapse in={openInventory} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               <ListItem button className={classes.nested}>
@@ -184,15 +187,19 @@ function LeftNav({titleWindow, children}) {
             </List>
           </Collapse> */}
 
-          <ListItem button>
-            <ListItemIcon><MailIcon /></ListItemIcon>
-            <ListItemText primary="Provedores" />
-          </ListItem>
+          <Link to="/vendors">
+            <ListItem button>
+              <ListItemIcon><MailIcon /></ListItemIcon>
+              <ListItemText primary="Provedores" />
+            </ListItem>
+          </Link>
 
-          <ListItem button>
-            <ListItemIcon><InboxIcon /></ListItemIcon>
-            <ListItemText primary="Ventas" />
-          </ListItem>
+          <Link to="/sales">
+            <ListItem button>
+              <ListItemIcon><InboxIcon /></ListItemIcon>
+              <ListItemText primary="Ventas" />
+            </ListItem>
+          </Link>
 
         </List>
         <Divider />

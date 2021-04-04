@@ -4,6 +4,8 @@ import React from 'react';
 import LeftNav from '../../components/NavBar/LeftNav/LeftNav';
 import HeaderVendors from '../../components/Vendors/HeaderVendors/HeaderVendors';
 import VendorsTable from '../../components/Vendors/VendrosTable/VendorsTable';
+import VendorsForm from '../../components/Vendors/VendorsForm/VendorsForm';
+import VendorBill from '../../components/Vendors/VendorsBill/VendorsBill';
 // Material
 import Grid from '@material-ui/core/Grid';
 
@@ -22,7 +24,12 @@ const Vendors = () => {
             <VendorsTable />
           </Grid>
           <Grid item xs={6}>
-            <h3>hola</h3>
+            <Grid item xs={12}>
+              <VendorsForm />
+            </Grid>
+            <Grid item xs={12}>
+              <VendorBill />
+            </Grid>
           </Grid>
         </Grid>
       </LeftNav>

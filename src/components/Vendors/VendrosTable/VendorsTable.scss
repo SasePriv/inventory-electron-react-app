@@ -1,8 +1,16 @@
 .vendorsTable{
   width: 100%;
   .container{
-    max-height: 680px;
+    max-height: 85vh;
+
+    @media screen and ( max-height: 970px){
+      height: 84vh;
+    }
+    @media screen and ( max-height: 880px){
+      height: 83vh;
+    }
   }
+  
   thead{
     th{
       background-color: white;
