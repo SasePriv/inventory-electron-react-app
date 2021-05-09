@@ -27,7 +27,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 ProtectedRoute.propTypes = {
-  component: PropTypes.element.isRequired,
+  component: PropTypes.object.isRequired,
   isAutehnticated: PropTypes.bool,
 };
 

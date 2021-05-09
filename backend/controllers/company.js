@@ -1,12 +1,9 @@
 const CompanyModal = require('../models/company');
 
-exports.getDataFromCompany = async (data) => {
-  const {
-    id,
-  } = data;
+exports.getDataFromCompany = async (id) => {
 
   try {
-    const findCompany = CompanyModal.findById(id);
+    const findCompany = await CompanyModal.findById(id);
 
     if (findCompany) {
       return ({message: 'Successful', dataCompany: findCompany});

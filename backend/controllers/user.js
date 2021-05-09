@@ -3,6 +3,23 @@ const CompanyModel = require('../models/company');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
+exports.ifFristUserExist = async () => {
+  
+  try {
+    const findUser = await UserModel.find();
+
+    if(findUser.length > 0) {
+      return({message: 'userExist'})
+    }else{
+      return({message: 'userNotExist'})
+    }
+  } catch (error) {
+    console.log('Error ifFristUserExist: ', error);
+    return({message: 'error-general'})
+  }
+
+}
+
 exports.createUserWithCompany = async (data) => {
   try {
     const {

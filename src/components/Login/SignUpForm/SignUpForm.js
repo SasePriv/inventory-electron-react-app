@@ -14,7 +14,7 @@ import {setErrorData, resetErrorData} from '../../../redux/errorsInputs/errorsIn
 import './SignUpForm.scss';
 
 // eslint-disable-next-line max-len
-const SignUpForm = ({toggleStatus, signUpFormData, setFormData, signUpCreate, errorInputs, setErrorData, resetErrorData}) => {
+const SignUpForm = ({signUpFormData, setFormData, signUpCreate, errorInputs, setErrorData, resetErrorData}) => {
   const [confirmationPass, setConfirmationPass] = useState('');
 
   const handleChangeInput = (event, nameInput) => {
@@ -50,8 +50,8 @@ const SignUpForm = ({toggleStatus, signUpFormData, setFormData, signUpCreate, er
 
   return (
     <div className="SignUpForm">
-      <div className="d-flex" onClick={toggleStatus}>
-        <FontAwesomeIcon icon={faArrowAltCircleLeft} className="mr-3 iconArrow"/>
+      <div className="d-flex">
+        {/* <FontAwesomeIcon icon={faArrowAltCircleLeft} className="mr-3 iconArrow"/> */}
         <h4>Registrar una Empresa</h4>
       </div>
       <div className="separatorX" />

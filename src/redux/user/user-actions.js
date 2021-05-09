@@ -1,5 +1,5 @@
 import UserActionTypes from './user-types';
-import {getDataUser} from '../../services/user/userService';
+import {getDataUser, getIfFristUserExist} from '../../services/user/userService';
 import {getDataCompany} from '../../services/company/companyService';
 import {handleError} from '../../utils/handleErrors';
 import {setErrorData, resetErrorData} from '../errorsInputs/errorsInputs-actions';
@@ -9,6 +9,30 @@ export const setCurrentUser = (user) => ({
   type: UserActionTypes.SET_CURRENT_USER,
   payload: user,
 });
+
+export const setUserDbExist = (status) => ({
+  type: UserActionTypes.SET_USER_DB_EXIST,
+  payload: status
+})
+
+export const checkExistUser = () => {
+  return async (dispatch) => {
+    const ifUserExist = await getIfFristUserExist();
+
+    if (ifUserExist.message === 'userExist') {
+      dispatch(setUserDbExist(true));
+    }else if (ifUserExist.message === 'userNotExist'){
+      dispatch(setUserDbExist(false));
+    }else if (ifUserExist.message === 'error-general'){
+      dispatch(setErrorData({
+        typeError: 'server',
+        errorMessage: handleError(ifUserExist.message),
+        statusError: true,
+      }));
+    }
+    
+  }
+}
 
 export const autoLogInUser = ({userId, companyId}) => {
   return async (dispatch) => {
@@ -22,7 +46,7 @@ export const autoLogInUser = ({userId, companyId}) => {
     } else {
       dispatch(setErrorData({
         typeError: 'server',
-        errorMessage: handleError(data.message),
+        errorMessage: handleError(dataGetCompany.message),
         statusError: true,
       }));
     }

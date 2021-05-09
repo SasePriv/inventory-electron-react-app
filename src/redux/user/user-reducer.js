@@ -7,6 +7,7 @@ const INITIAL_STATE = {
   profileStatus: undefined,
   isSetStatusFetching: false,
   setStatusError: undefined,
+  userDbExist: false,
 };
 
 const UserReducer = (state = INITIAL_STATE, action) => {
@@ -19,6 +20,13 @@ const UserReducer = (state = INITIAL_STATE, action) => {
         isFetching: false,
         currentUser: payload,
       };
+    }
+
+    case (UserActionTypes.SET_USER_DB_EXIST): {
+      return {
+        ...state,
+        userDbExist: payload
+      }
     }
 
     default:

@@ -8,7 +8,10 @@ import UserReducer from './user/user-reducer';
 import SignInReducer from './signin/signin-reducer';
 import SigunUpReducer from './signup/signup-reducer';
 import CompanyReducer from './company/company-reducer';
+import InventoryReducer from './inventory/inventory-reducer';
 import ErrorInputsReducer from './errorsInputs/errorsInputs-reducer';
+import VendorReducer from './vendor/vendor-reducer';
+import ClientReducer from './client/client-reducer';
 
 const reducer = combineReducers({
   user: UserReducer,
@@ -16,6 +19,9 @@ const reducer = combineReducers({
   signup: SigunUpReducer,
   company: CompanyReducer,
   errorInputs: ErrorInputsReducer,
+  inventory: InventoryReducer,
+  vendor: VendorReducer,
+  client: ClientReducer,
 });
 
 const middlewares = [thunk, logger];

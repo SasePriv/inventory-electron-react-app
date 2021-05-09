@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 // React
 import React from 'react';
 // import PropTypes from 'prop-types';
@@ -15,23 +16,38 @@ import ProtectedRoute from './routes/protectedRoute';
 import PrivateRoute from './routes/privateRoute';
 
 // React Reduxe
-// import {store} from '../store/storeUserData';
+import {store} from '../store/storeUserData';
 import {connect} from 'react-redux';
 import {autoLogInUser} from './redux/user/user-actions';
+
+// Toast
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Styles
 import './app.scss';
 
 class App extends React.Component {
-  // componentDidMount() {
-  //   const dataSaved = store.get('userData');
-  //   const {autoLogInUser} = this.props;
-  //   console.log(dataSaved);
+  componentDidMount() {
+    const dataSaved = store.get('userData');
+    const {autoLogInUser} = this.props;
 
-  //   if (dataSaved.userId && dataSaved.companyId) {
-  //     autoLogInUser({userId: dataSaved.userId, companyId: dataSaved.companyId});
-  //   }
-  // }
+    if (dataSaved.userId && dataSaved.companyId) {
+      autoLogInUser({userId: dataSaved.userId, companyId: dataSaved.companyId});
+    }
+
+    // Example Toast
+
+    // toast.success('🦄 Wow so easy!', {
+    //   position: 'top-right',
+    //   autoClose: 15000,
+    //   hideProgressBar: false,
+    //   closeOnClick: true,
+    //   pauseOnHover: true,
+    //   draggable: true,
+    //   progress: undefined,
+    // });
+  }
 
   render() {
     return (
@@ -46,6 +62,7 @@ class App extends React.Component {
             <Redirect from="/" to="inventory" />
           </Switch>
         </HashRouter>
+        <ToastContainer />
       </div>
     );
   }

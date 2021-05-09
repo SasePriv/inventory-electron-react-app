@@ -1,0 +1,40 @@
+.AddClient{
+  color: #303f9f;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  .textClient{
+    margin: 0 10px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none; 
+  }
+}
+
+.AddClient:active {
+  color: #6070d8;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; 
+}
+
+.addClientModal{
+  .gridContainer{
+
+    .titleForm{
+      font-size: 1.2rem;
+      font-weight: bolder;
+      color: #4b4949;
+    }
+
+    .btnContainer{
+      margin-top: 2px;
+      margin-bottom: 2px;
+      button{
+        margin: 5px;
+      }
+    }
+  }
+}

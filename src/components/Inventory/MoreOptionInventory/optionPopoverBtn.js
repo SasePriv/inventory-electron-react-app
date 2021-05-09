@@ -1,5 +1,7 @@
+/* eslint-disable max-len */
+/* eslint-disable react/prop-types */
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Popover from '@material-ui/core/Popover';
 import Button from '@material-ui/core/Button';
 
@@ -17,12 +19,11 @@ const useStyles = makeStyles((theme) => ({
   },
   textField: {
     width: '21.5ch',
-    marginTop: "20px"
+    marginTop: '20px',
   },
 }));
 
 const OptionPopoverBtn = ({name, data, onEliminate, onAdd}) => {
-
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [inputValue, setInputValue] = React.useState('');
@@ -37,7 +38,7 @@ const OptionPopoverBtn = ({name, data, onEliminate, onAdd}) => {
 
   const onInputChange = (event) => {
     setInputValue(event.target.value);
-  }
+  };
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
@@ -67,14 +68,20 @@ const OptionPopoverBtn = ({name, data, onEliminate, onAdd}) => {
             <table>
               <tbody>
                 {
+                  data.length !== 0 ?
+
                   data.map((each, index) => {
-                    return(
+                    return (
                       <tr key={index}>
-                        <th>{each.category}</th>
+                        <th>{each.name}</th>
                         <th className="eliminateBtn" onClick={() => onEliminate(each.id)}>X</th>
                       </tr>
-                    )
-                  })
+                    );
+                  }) :
+
+                  <tr>
+                    <th>No marcas registradas</th>
+                  </tr>
                 }
               </tbody>
             </table>
@@ -84,7 +91,7 @@ const OptionPopoverBtn = ({name, data, onEliminate, onAdd}) => {
               id="outlined-adornment-weight"
               value={inputValue}
               onChange={(e) => onInputChange(e)}
-              endAdornment={<InputAdornment onClick={onAdd} className="addCategoryIcon" position="end"><AddBoxIcon /></InputAdornment>}
+              endAdornment={<InputAdornment onClick={() => onAdd(inputValue)} className="addCategoryIcon" position="end"><AddBoxIcon /></InputAdornment>}
               aria-describedby="outlined-weight-helper-text"
               inputProps={{
                 'aria-label': 'weight',
@@ -97,6 +104,6 @@ const OptionPopoverBtn = ({name, data, onEliminate, onAdd}) => {
       </Popover>
     </div>
   );
-}
+};
 
 export default OptionPopoverBtn;

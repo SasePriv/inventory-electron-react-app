@@ -1,5 +1,5 @@
 // React
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {Animated} from 'react-animated-css';
 // Redux
@@ -9,6 +9,8 @@ import {selectIsSignUpIn} from '../../redux/signup/signup-selectors';
 import {selectIsSigningIn} from '../../redux/signin/signin-selectors';
 import {selectErrorInputsData} from '../../redux/errorsInputs/errorsInputs-selectors';
 import {resetErrorData} from '../../redux/errorsInputs/errorsInputs-actions';
+import {checkExistUser} from '../../redux/user/user-actions';
+import {selectUserDbExist} from '../../redux/user/user-selectors';
 // Component
 import SignInForm from '../../components/Login/SignInForm/SignInForm';
 import SignUpForm from '../../components/Login/SignUpForm/SignUpForm';
@@ -17,8 +19,12 @@ import Spinner from '../../utils/spinner/spinner';
 import './Login.scss';
 import VideoBackground from '../../../assets/videos/backgroundVideoLogin3.mp4';
 
-const Login = ({isSignUp, isSignIn, errorInputs, resetErrorData}) => {
+const Login = ({isSignUp, isSignIn, errorInputs, resetErrorData, checkExistUser, userExistDB}) => {
   const [status, setStatus] = useState(true);
+
+  useEffect(() => {
+    checkExistUser();
+  },[])
 
   const toggleStatus = () => {
     setStatus(!status);
@@ -39,22 +45,22 @@ const Login = ({isSignUp, isSignIn, errorInputs, resetErrorData}) => {
           <Animated
             animationIn="fadeIn"
             animationOut="fadeOut"
-            isVisible={status}
-            style={{width: '100%', display: status ? '' : 'none'}}
+            isVisible={userExistDB}
+            style={{width: '100%', display: userExistDB ? '' : 'none'}}
             animationInDelay={100} animationOutDelay={100}
           >
-            <SignInForm toggleStatus={toggleStatus}/>
+            <SignInForm/>
           </Animated>
 
           <Animated
             animationIn="fadeIn"
             animationOut="fadeOut"
-            isVisible={!status}
-            style={{width: '100%', display: status ? 'none' : ''}}
+            isVisible={!userExistDB}
+            style={{width: '100%', display: userExistDB ? 'none' : ''}}
             animationInDelay={100}
             animationOutDelay={100}
           >
-            <SignUpForm toggleStatus={toggleStatus}/>
+            <SignUpForm/>
           </Animated>
 
         </div>
@@ -72,10 +78,12 @@ const mapStateToProps = createStructuredSelector({
   isSignUp: selectIsSignUpIn,
   isSignIn: selectIsSigningIn,
   errorInputs: selectErrorInputsData,
+  userExistDB: selectUserDbExist
 });
 
 const mapDispatchToProps = (dispatch) => ({
   resetErrorData: () => dispatch(resetErrorData()),
+  checkExistUser: () => dispatch(checkExistUser())
 });
 
 Login.propTypes = {
@@ -84,6 +92,8 @@ Login.propTypes = {
   errorInputs: PropTypes.object,
   statusError: PropTypes.bool,
   resetErrorData: PropTypes.func,
+  checkExistUser: PropTypes.func,
+  userExistDB: PropTypes.bool
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

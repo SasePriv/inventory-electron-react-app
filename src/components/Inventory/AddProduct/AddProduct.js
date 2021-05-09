@@ -1,4 +1,5 @@
-import React from 'react';
+/* eslint-disable react/prop-types */
+import React, {useState} from 'react';
 
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import {makeStyles} from '@material-ui/core/styles';
@@ -7,9 +8,16 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
+import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import Button from '@material-ui/core/Button';
 import ClearIcon from '@material-ui/icons/Clear';
 import AddBoxIcon from '@material-ui/icons/AddBox';
+
+import CustomSelect from '../../Utils/CustomSelect/CustomSelect';
+import {emitErrorMessage} from '../../../utils/notifications';
+
+import {selectBrandList, selectCategoryList} from '../../../redux/inventory/inventory-selector';
+import {newProduct} from '../../../redux/inventory/inventory-actions';
 
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
@@ -32,11 +40,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddProduct = () => {
+const AddProduct = ({categoryList, brandList, newProduct}) => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
-  const [addImages, setAddImage] = React.useState([
+  const [form, setForm] = useState({
+    name: '',
+    sku: '',
+    code: '',
+    category: '',
+    brand: '',
+    description: '',
+    images: [],
+  });
+
+  const [addImages, setAddImage] = useState([
     {file: 1, name: '', path: '', type: ''},
     {file: 2, name: '', path: '', type: ''},
     {file: 3, name: '', path: '', type: ''},
@@ -49,6 +67,26 @@ const AddProduct = () => {
 
   const handleClose = () => {
     setOpen(false);
+    initialValues();
+  };
+
+  const initialValues = () => {
+    setForm({
+      name: '',
+      sku: '',
+      code: '',
+      category: '',
+      brand: '',
+      description: '',
+      images: [],
+    });
+
+    setAddImage([
+      {file: 1, name: '', path: '', type: ''},
+      {file: 2, name: '', path: '', type: ''},
+      {file: 3, name: '', path: '', type: ''},
+      {file: 4, name: '', path: '', type: ''},
+    ]);
   };
 
   const handleAddImages = (event, idImage) => {
@@ -60,10 +98,10 @@ const AddProduct = () => {
         eachImageState.path = file.path;
         eachImageState.type = file.path;
       }
-
       return eachImageState;
     });
 
+    setForm({...form, images: updateImageState});
     setAddImage(updateImageState);
   };
 
@@ -78,9 +116,33 @@ const AddProduct = () => {
       return eachImageState;
     });
 
+    setForm({...form, images: updateImageState});
     setAddImage(updateImageState);
   };
 
+  const handleChangeForm = (event, formNameValue) => {
+    setForm({
+      ...form,
+      [formNameValue]: event.target.value,
+    });
+  };
+
+  const checkForm = () => {
+    if (form.name === '') {
+      emitErrorMessage('No deje el campo nombre vacio', true);
+      return false;
+    };
+    return true;
+  };
+
+  const onCreate = () => {
+    const isValid = checkForm();
+    if (isValid) {
+      console.log(form);
+      newProduct(form);
+      handleClose();
+    };
+  };
 
   return (
     <div>
@@ -184,65 +246,73 @@ const AddProduct = () => {
                       <ClearIcon className='closeModal' onClick={handleClose}/>
                     </div>
                   </Grid>
-                  <Grid container spacing={5}>
+                  <Grid container spacing={3}>
                     <Grid item xs={8}>
                       <TextField
                         className="w-100"
                         id="standard-basic"
                         label="Nombre"
-                        value='Luis Sanchez'/>
+                        value={form.name}
+                        onChange={(e) => handleChangeForm(e, 'name')}
+                      / >
                     </Grid>
                     <Grid item xs={4}>
                       <TextField
                         className="w-100"
                         id="standard-basic"
                         label="SKU"
-                        value='305-54'/>
+                        value={form.sku}
+                        onChange={(e) => handleChangeForm(e, 'sku')}
+                      />
                     </Grid>
                     <Grid item xs={3}>
                       <TextField
                         className="w-100"
                         id="standard-basic"
-                        label="Precio $"
-                        value='500'/>
+                        label="Codigo"
+                        value={form.code}
+                        onChange={(e) => handleChangeForm(e, 'code')}
+                      />
                     </Grid>
-                    <Grid item xs={3}>
-                      <TextField
-                        className="w-100"
-                        id="standard-basic"
-                        label="Costo $"
-                        value='200'/>
+                    <Grid item xs={4}>
+                      <div className="customSelectSpace">
+                        <CustomSelect
+                          label="Marca"
+                          items={brandList}
+                          value={form.brand}
+                          handleChange={(e) => handleChangeForm(e, 'brand')}
+                        />
+                      </div>
                     </Grid>
-                    <Grid item xs={3}>
-                      <TextField
-                        className="w-100"
-                        id="standard-basic"
-                        label="Precio Bolivares"
-                        value='200000'/>
+                    <Grid item xs={4}>
+                      <div className="customSelectSpace">
+                        <CustomSelect
+                          label="Categoria"
+                          items={categoryList}
+                          value={form.category}
+                          handleChange={(e) => handleChangeForm(e, 'category')}
+                        />
+                      </div>
                     </Grid>
-                    <Grid item xs={3}>
-                      <TextField
+                    <Grid item xs={12}>
+                      <div>Descripcion</div>
+                      <TextareaAutosize
+                        rowsMax={5}
+                        rowsMin={5}
+                        aria-label="maximum height"
+                        placeholder="Descripcion del producto"
                         className="w-100"
-                        id="standard-basic"
-                        label="Stock"
-                        value='50'/>
-                    </Grid>
-                    <Grid item xs={3}>
-                      <TextField
-                        className="w-100"
-                        id="standard-basic"
-                        label="Marca"
-                        value='Adiddas'/>
-                    </Grid>
-                    <Grid item xs={3}>
-                      <TextField
-                        className="w-100"
-                        id="standard-basic"
-                        label="Provedor"
-                        value='cumaca.com'/>
+                        value={form.description}
+                        onChange={(e) => handleChangeForm(e, 'description')}
+                      />
                     </Grid>
                     <Grid item xs={12} className='createBtnContainer'>
-                      <Button className="createBtn" variant="contained" color="primary" >
+                      <Button
+                        className="createBtn"
+                        variant="contained"
+                        color="primary"
+                        onClick={onCreate}
+                      >
                         Crear Producto
                       </Button>
                     </Grid>
@@ -258,11 +328,12 @@ const AddProduct = () => {
 };
 
 const mapStateToProps = createStructuredSelector({
-
+  categoryList: selectCategoryList,
+  brandList: selectBrandList,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-
+  newProduct: (data) => dispatch(newProduct(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddProduct);

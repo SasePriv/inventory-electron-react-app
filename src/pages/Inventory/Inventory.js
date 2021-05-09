@@ -1,23 +1,26 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import PropTypes from 'prop-types';
 
 import HeaderInventory from '../../components/Inventory/HeaderInventory/HeaderInventory';
 import TableInventory from '../../components/Inventory/TableInventory/TableInventory';
 import MoreOptionInventory from '../../components/Inventory/MoreOptionInventory/MoreOptionInventory';
 import LeftNav from '../../components/NavBar/LeftNav/LeftNav';
 
+import {createStructuredSelector} from 'reselect';
+import {connect} from 'react-redux';
+import {getProductsList} from '../../redux/inventory/inventory-actions';
+import {selectProductsList} from '../../redux/inventory/inventory-selector';
+
 import Grid from '@material-ui/core/Grid';
 
 
 import './Inventory.scss';
 
-const exampleDataTable = [
-  {sku: '101-lz', name: 'Example name for a product maybe is so long', price: 105, stock: 5},
-  {sku: '399-lz', name: 'This text is not than long', price: 5, stock: 15},
-  {sku: '101-lz', name: 'Example name for a product maybe is so long', price: 105, stock: 5},
-  {sku: '399-lz', name: 'This text is not than long', price: 5, stock: 15},
-];
+const Inventory = ({getProductsList, productsList}) => {
+  useEffect(() => {
+    getProductsList();
+  }, []);
 
-const Inventory = () => {
   return (
     <div className="inventoryPage">
       <LeftNav>
@@ -27,7 +30,7 @@ const Inventory = () => {
           </Grid>
           <Grid item xs={12}>
             <div className='tableContainer'>
-              <TableInventory data={exampleDataTable}/>
+              <TableInventory data={productsList}/>
             </div>
           </Grid>
         </Grid>
@@ -37,4 +40,17 @@ const Inventory = () => {
   );
 };
 
-export default Inventory;
+const mapDispatchtoProps = (dispatch) =>( {
+  getProductsList: () => dispatch(getProductsList()),
+});
+
+const mapStateToProps = createStructuredSelector({
+  productsList: selectProductsList,
+});
+
+Inventory.propTypes = {
+  productsList: PropTypes.array,
+  getProductsList: PropTypes.func,
+};
+
+export default connect(mapStateToProps, mapDispatchtoProps)(Inventory);

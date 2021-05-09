@@ -5,20 +5,14 @@ import Select from '@material-ui/core/Select';
 
 import './CustomSelect.scss';
 
-const CustomSelect = ({label = null, items = []}) => {
-  const [age, setAge] = React.useState('');
-
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
-
+const CustomSelect = ({label = null, items=[], value = '', handleChange = () => ''}) => {
   return (
     <div className='CustomSelect'>
       {/* <FormControl className={classes.formControl}> */}
       <div className='d-flex'>
         <div className='labelName'>{label ? `${label}:` : null} </div>
         <Select
-          value={age}
+          value={value}
           onChange={handleChange}
           displayEmpty
           className={`selectInput ${label ? null : 'w-100' }`}
@@ -27,14 +21,23 @@ const CustomSelect = ({label = null, items = []}) => {
           <MenuItem value="">
             <em>Ninguno</em>
           </MenuItem>
-          { items.map((item, index) => {
-            return (
-              <MenuItem className="eachSelectItem" key={index} value={item.value}>{item.name}</MenuItem>
-            );
-          }) }
+          {
+            items.length > 0 ?
+            items.map((item, index) => {
+              return (
+                <MenuItem
+                  className="eachSelectItem"
+                  key={index}
+                  value={item.name}>
+                  <em>{item.name}</em>
+                </MenuItem>
+              );
+            }) :
+            <MenuItem value="">
+              <em>No hay {label}</em>
+            </MenuItem>
+          }
 
-          {/* <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem> */}
         </Select>
       </div>
       {/* </FormControl> */}
@@ -45,6 +48,8 @@ const CustomSelect = ({label = null, items = []}) => {
 CustomSelect.propTypes = {
   label: PropTypes.string,
   items: PropTypes.arrayOf(PropTypes.object),
+  value: PropTypes.string,
+  handleChange: PropTypes.func,
 };
 
 export default CustomSelect;

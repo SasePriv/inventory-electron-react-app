@@ -12,7 +12,7 @@ import {
 import './LoginForm.scss';
 
 const LoginForm = (
-    {toggleStatus, signInFormData, setFormData, signInAsync, signInFailure, signInError},
+    {signInFormData, setFormData, signInAsync, signInFailure, signInError},
 ) => {
   const handleChangeInput = (event, nameInput) => {
     setFormData({[nameInput]: event.target.value});

@@ -1,5 +1,13 @@
 const {BrowserWindow} = require('electron');
-const {user, company} = require('./backend/controllers/index');
+const {
+  user,
+  company,
+  category,
+  brand,
+  products,
+  vendor,
+  client,
+} = require('./backend/controllers/index');
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -24,4 +32,9 @@ module.exports = {
   user,
   company,
   createWindow,
+  category,
+  brand,
+  products,
+  vendor,
+  client,
 };

@@ -4,7 +4,7 @@ import LoginInfo from './LoginInfo/LoginInfo';
 
 import './SignInForm.scss';
 
-const SignInForm = ({toggleStatus}) => {
+const SignInForm = () => {
   return (
     <div className="SignInForm d-flex">
       <div className="w-50 middle">
@@ -12,7 +12,7 @@ const SignInForm = ({toggleStatus}) => {
       </div>
       <div className="separator-line" />
       <div className="w-50 middle">
-        <LoginForm toggleStatus={toggleStatus}/>
+        <LoginForm/>
       </div>
     </div>
   );

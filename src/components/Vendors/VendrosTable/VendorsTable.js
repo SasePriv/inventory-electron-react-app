@@ -1,5 +1,6 @@
+/* eslint-disable react/prop-types */
 // React
-import React from 'react';
+import React, {useEffect} from 'react';
 // Material
 import {makeStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -10,6 +11,11 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
+import {getAllVendors, setOneVendor} from '../../../redux/vendor/vendor-actions';
+import {selectVendorList} from '../../../redux/vendor/vendor-selectos';
+import {connect} from 'react-redux';
+import {createStructuredSelector} from 'reselect';
+
 // Styles
 import './VendorsTable.scss';
 
@@ -17,27 +23,15 @@ const column = [
   {id: 155, label: 'Nombre del provedor'},
 ];
 
-const exampleData = [
-  {id: 1, nameVendor: 'example1'},
-  {id: 2, nameVendor: 'example2'},
-  {id: 3, nameVendor: 'example3'},
-  {id: 4, nameVendor: 'example4'},
-  {id: 5, nameVendor: 'example5'},
-  {id: 5, nameVendor: 'example5'},
-  {id: 5, nameVendor: 'example5'},
-  {id: 5, nameVendor: 'example5'},
-  {id: 5, nameVendor: 'example5'},
-  {id: 5, nameVendor: 'example5'},
-  {id: 5, nameVendor: 'example5'},
-  {id: 5, nameVendor: 'example5'},
-  {id: 5, nameVendor: 'example5'},
-  {id: 5, nameVendor: 'example5'},
-  {id: 5, nameVendor: 'example5'},
-  {id: 5, nameVendor: 'example5'},
-  {id: 5, nameVendor: 'example5'},
-];
+const VendorsTable = ({vendorList, getAllVendors, setOneVendor}) => {
+  useEffect(() => {
+    getAllVendors();
+  }, []);
 
-const VendorsTable = () => {
+  const selectOneVendor = (row) => {
+    setOneVendor(row);
+  };
+
   return (
     <Paper elevation={3} className="vendorsTablePaper">
       <div className="vendorsTable">
@@ -57,15 +51,29 @@ const VendorsTable = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {exampleData.map((row) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                    <TableCell key={column.id}>
-                      {row.nameVendor}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+              {
+                vendorList ?
+                vendorList.map((row) => {
+                  return (
+                    <TableRow
+                      hover
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={row._id}
+                      onClick={() => selectOneVendor(row)}
+                    >
+                      <TableCell key={column.id} >
+                        {row.name}
+                      </TableCell>
+                    </TableRow>
+                  );
+                }) :
+                <TableRow hover role="checkbox" tabIndex={-1}>
+                  <TableCell>
+                    No hay provedores registrados
+                  </TableCell>
+                </TableRow>
+              }
             </TableBody>
           </Table>
         </TableContainer>
@@ -74,4 +82,13 @@ const VendorsTable = () => {
   );
 };
 
-export default VendorsTable;
+const mapStateToProps = createStructuredSelector({
+  vendorList: selectVendorList,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getAllVendors: () => dispatch(getAllVendors()),
+  setOneVendor: (data) => dispatch(setOneVendor(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(VendorsTable);

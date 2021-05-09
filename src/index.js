@@ -13,7 +13,6 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 import 'fontsource-roboto';
 
 ReactDOM.render(
-
     <Provider store={Store}>
       <App />
     </Provider>,

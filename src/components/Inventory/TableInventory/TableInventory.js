@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 
 import {makeStyles} from '@material-ui/core/styles';
@@ -17,11 +17,21 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
 
 import CustomSelect from '../../Utils/CustomSelect/CustomSelect';
 import example from '../../../../assets/images/example1.png';
 
+import FsLightbox from 'fslightbox-react';
+
 import './TableInventory.scss';
+
+//redux
+import {createStructuredSelector} from 'reselect';
+import {connect} from 'react-redux';
+import {updatePriceProduct} from '../../../redux/inventory/inventory-actions';
 
 const useRowStyles = makeStyles({
   root: {
@@ -31,9 +41,91 @@ const useRowStyles = makeStyles({
   },
 });
 
-const Row = ({row}) => {
-  const [open, setOpen] = React.useState(false);
+const Row = ({row, updatePriceProduct}) => {
+  const [open, setOpen] = useState(false);
+  const [firstImage, setFirstImage] = useState('');
   const classes = useRowStyles();
+  const [allImages, setAllImages] = useState([]);
+  const [vendorIndex, setVendorIndex] = useState(0);
+  const [vendor, setVendor] = useState('');
+  const [toggleBtn, setToggleBtn] = useState(false);
+  const [toggler, setToggler] = useState(false);
+
+  useEffect(() => {
+    mininImage();
+    loadImages();
+    loadFirstVendor();
+  }, []);
+
+  const mininImage = () => {
+    if (row.images) {
+      for (let i = 0; i < row.images.length; i++) {
+        console.log('row', row.images[i]);
+        if (row.images[i].name !== '') {
+          setFirstImage(row.images[i].path);
+          break;
+        }
+      }
+    }
+  };
+
+  const loadFirstVendor = () => {
+    if (row.vendor.length > 0) {
+      setVendor({
+        vendorId: row.vendor[0].vendorId,
+        price: row.vendor[0].price,
+        cost: row.vendor[0].cost,
+        stock: row.vendor[0].stock,
+      });
+    }
+  };
+
+  const loadImages = () => {
+    const data = [];
+    if (row.images) {
+      for (let i = 0; i < row.images.length; i++) {
+        if (row.images[i].name !== '') {
+          data.push(String.raw`${row.images[i].path}`);
+        }
+      }
+      if (data.length > 0) {
+        setAllImages(data);
+      } else {
+        setAllImages([example]);
+      }
+    }
+  };
+
+  const handleChangeVendor = (event) => {
+    setVendorIndex(event.target.value);
+    setVendor({
+      vendorId: row.vendor[event.target.value].vendorId,
+      price: row.vendor[event.target.value].price,
+      cost: row.vendor[event.target.value].cost,
+      stock: row.vendor[event.target.value].stock,
+    });
+  };
+
+  const handleChangePrice = (event) => {
+    setVendor({
+      ...vendor,
+      price: event.target.value,
+    });
+    price: row.vendor[event.target.value].price = event.target.value;
+  };
+
+  const togglePrice = () => {
+    if (toggleBtn) {
+      updatePriceProduct({
+        vendorId: vendor.vendorId,
+        price: parseInt(vendor.price),
+        productId: row._id,
+      });
+    }
+    setToggleBtn(!toggleBtn);
+  };
+
+  console.log(vendor.toString());
 
   return (
     <React.Fragment>
@@ -44,15 +136,19 @@ const Row = ({row}) => {
           </IconButton>
         </TableCell>
         <TableCell>
-          <img className='imageTableRow' alt="imagen-producto" src={example}/>
+          <img
+            className='imageTableRow'
+            alt="imagen-producto"
+            src={firstImage !== '' ? firstImage : example}
+          />
         </TableCell>
         <TableCell>
-          {row.sku}
+          {row.sku ? row.sku : '-'}
         </TableCell>
         <TableCell align="left">{row.name}</TableCell>
-        <TableCell align="left"><CustomSelect /></TableCell>
-        <TableCell align="left">{row.price}</TableCell>
-        <TableCell align="left">{row.stock}</TableCell>
+        <TableCell align="left">{row.category ? row.category : '-'}</TableCell>
+        <TableCell align="left">{vendor !== '' ? vendor.price + '$' : '-'}</TableCell>
+        <TableCell align="left">{vendor !== '' ? vendor.stock : '-'}</TableCell>
       </TableRow>
       <TableRow className='eachDetailProduct'>
         <TableCell style={{paddingBottom: 0, paddingTop: 0}} colSpan={7}>
@@ -61,85 +157,124 @@ const Row = ({row}) => {
 
               <Grid container spacing={3}>
                 <Grid item xs={2} className="imagesOption">
-                  <img className='imageDetailRow' alt="imagen-producto" src={example}/>
-                  <div>1 of 3</div>
-                  <div className='addImageBtn'>+ Add Image</div>
+                  <img
+                    className='imageDetailRow'
+                    alt="imagen-producto"
+                    src={firstImage !== '' ? firstImage : example}
+                  />
+                  <button onClick={() => setToggler(!toggler)}>
+                  Ver Mas
+                  </button>
+                  <FsLightbox
+                    toggler={toggler}
+                    sources={allImages}
+                  />
+
+                  <div>{row.images ? row.images.length : 0} fotos</div>
                 </Grid>
                 <Grid item xs={10}>
                   <Grid container item xs={12} spacing={3}>
-                    <Grid item xs={5}>
+                    <Grid item xs={6}>
                       <TextField
                         className="w-100"
                         id="standard-basic"
                         label="Nombre"
-                        value='Nombre de Ejemplo'
+                        value={row.name}
+                        disabled={true}
                       />
                     </Grid>
-                    <Grid item xs={2}>
-                      <TextField
-                        className="w-100"
-                        id="standard-basic"
-                        label="Precio"
-                        value='45'
-                      />
-                    </Grid>
-                    <Grid item xs={2}>
-                      <TextField
-                        className="w-100"
-                        id="standard-basic"
-                        label="Costo"
-                        value='25'
-                      />
-                    </Grid>
-                    <Grid item xs={3}>
-                      <TextField
-                        className="w-100"
-                        id="standard-basic"
-                        label="SKU"
-                        value='145-lke'
-                      />
-                    </Grid>
-                  </Grid>
-                  <Grid container item xs={12} spacing={3}>
-                    <Grid item xs={3}>
-                      <TextField className="w-100" id="standard-basic" label="Marca" value='Teen'/>
-                    </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={6}>
                       <TextField
                         id="standard-select-currency"
                         select
                         label="Provedor"
                         className='w-100'
-                        // value={currency}
-                        // onChange={handleChange}
+                        value={vendorIndex}
+                        onChange={handleChangeVendor}
                         // helperText="Please select your currency"
                       >
-                        <MenuItem value={'hola'}>
-                            Hola
-                        </MenuItem>
+                        {row.vendor.length > 0 ?
+                          row.vendor.map((each, index) => {
+                            return (
+                              <MenuItem value={index} key={index}>
+                                {each.vendorName}
+                              </MenuItem>
+                            );
+                          }) :
+                          <MenuItem value=''>
+                            Sin provedor para este producto
+                          </MenuItem>
+                        }
                       </TextField>
                     </Grid>
                     <Grid item xs={3}>
                       <TextField
                         className="w-100"
                         id="standard-basic"
-                        label="Stock"
-                        value='5'
+                        label="SKU"
+                        value={row.sku ? row.sku : '-'}
+                        disabled={true}
                       />
                     </Grid>
                     <Grid item xs={3}>
                       <TextField
                         className="w-100"
                         id="standard-basic"
-                        label="Precio en Bolivares"
-                        value='1.000.000'
+                        label="Marca"
+                        value={row.category ? row.category : '-'}
+                        disabled={true}
                       />
+                    </Grid>
+                    <Grid container item xs={12} spacing={2}>
+                      <Grid item xs={2}>
+                        <InputLabel htmlFor="standard-basic-stock">Stock</InputLabel>
+                        <Input
+                          className="w-100"
+                          id="standard-basic-stock"
+                          value={vendor ? vendor.stock : 0}
+                          type='number'
+                          disabled={true}
+                        />
+                      </Grid>
+                      <Grid item xs={2}>
+                        <InputLabel htmlFor="standard-basic-cost">Costo</InputLabel>
+                        <Input
+                          className="w-100"
+                          id="standard-basic-cost"
+                          value={vendor ? vendor.cost : 0}
+                          disabled={true}
+                          type='number'
+                          endAdornment={<InputAdornment position="end">$</InputAdornment>}
+                        />
+                      </Grid>
+                      <Grid item xs={2}>
+                        <InputLabel htmlFor="standard-basic-price">Precio</InputLabel>
+                        <Input
+                          className="w-100"
+                          id="standard-basic-price"
+                          value={vendor ? vendor.price : 0}
+                          onChange={handleChangePrice}
+                          disabled={!toggleBtn}
+                          type='number'
+                          endAdornment={<InputAdornment position="end">$</InputAdornment>}
+                        />
+                      </Grid>
+                      <Grid item={2}>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          disabled={vendor === '' ? true : false}
+                          onClick={togglePrice}
+                        >
+                          {toggleBtn ? 'Guardar Precio' : 'Editar Precio'}
+                        </Button>
+                      </Grid>
                     </Grid>
                   </Grid>
                   <Grid container item xs={12} spacing={3}>
                     <Grid item xs={12} className="mt-4 btnSaveContainer">
                       <Button variant="contained" color="primary">
-                        Guardar
+                        Editar
                       </Button>
                     </Grid>
                   </Grid>
@@ -157,7 +292,7 @@ Row.propTypes = {
   row: PropTypes.object,
 };
 
-const TableInventory = ({data}) => {
+const TableInventory = ({data, updatePriceProduct}) => {
   return (
     <TableContainer className='TableInventory'>
       <Table aria-label="collapsible table">
@@ -175,7 +310,7 @@ const TableInventory = ({data}) => {
         </TableHead>
         <TableBody>
           {data.map((row, index) => (
-            <Row key={index} row={row} />
+            <Row key={index} row={row} updatePriceProduct={updatePriceProduct}/>
           ))}
         </TableBody>
       </Table>
@@ -187,4 +322,12 @@ TableInventory.propTypes = {
   data: PropTypes.array,
 };
 
-export default TableInventory;
+const mapStateToProps = createStructuredSelector({
+
+});
+
+const mapDispatchtoProps = (dispatch) =>( {
+  updatePriceProduct: (data) => dispatch(updatePriceProduct(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchtoProps)(TableInventory);

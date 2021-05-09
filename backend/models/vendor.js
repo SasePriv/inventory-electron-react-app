@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const vendorSchema = mongoose.Schema(
     {
       _id: mongoose.Schema.Types.ObjectId,
-      companyName: {type: String, required: true},
-      adress: {type: String},
+      name: {type: String, required: true},
+      // adress: {type: String},
       country: {type: String},
       phone: {type: String},
       email: {type: String,
@@ -14,6 +14,7 @@ const vendorSchema = mongoose.Schema(
           'Please enter a valid email',
         ],
       },
+      invoicesId: [{type: String}],
     },
     {
       timestamps: true,
