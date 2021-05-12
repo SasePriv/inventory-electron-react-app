@@ -1,5 +1,6 @@
+/* eslint-disable max-len */
 /* eslint-disable react/prop-types */
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import {makeStyles} from '@material-ui/core/styles';
@@ -40,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddProduct = ({categoryList, brandList, newProduct}) => {
+const AddProduct = ({categoryList, brandList, newProduct, nameLabel, iconToggle = false, product = null}) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
@@ -61,13 +62,42 @@ const AddProduct = ({categoryList, brandList, newProduct}) => {
     {file: 4, name: '', path: '', type: ''},
   ]);
 
+  useEffect(() => {
+    if (product !== null) {
+      const imageList = product.images.map((each) => {
+        return {
+          file: each.file,
+          name: each.name,
+          path: each.path,
+          type: each.type,
+        };
+      });
+
+      if (imageList.length > 0) {
+        setAddImage(imageList);
+      }
+
+      setForm({
+        ...form,
+        name: product.name,
+        sku: product.sku,
+        code: product.code,
+        category: product.category,
+        brand: product.brand,
+        description: product.description,
+      });
+    }
+  }, [product]);
+
   const handleOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
-    initialValues();
+    if (product === false) {
+      initialValues();
+    }
   };
 
   const initialValues = () => {
@@ -144,11 +174,13 @@ const AddProduct = ({categoryList, brandList, newProduct}) => {
     };
   };
 
+  console.log(addImages);
+
   return (
     <div>
-      <div className='d-flex AddProduct' onClick={handleOpen}>
-        <AddShoppingCartIcon />
-        <div className='textProduct'>Añadir Producto</div>
+      <div className={`d-flex AddProduct ${iconToggle === true ? 'editProduct' : ''}`} onClick={handleOpen}>
+        {iconToggle === false && <AddShoppingCartIcon />}
+        <div className="textProduct">{nameLabel}</div>
       </div>
       <Modal
         aria-labelledby="transition-modal-title"
@@ -170,13 +202,13 @@ const AddProduct = ({categoryList, brandList, newProduct}) => {
                   <Grid item xs={12}><h4>Imagenes del Producto</h4></Grid>
                   <Grid item xs={12} className='addingImageContainer'>
                     {
-                        addImages[0].name !== '' ?
+                        addImages[0]?.name !== '' ?
 
                         <div className='containerImage'>
                           <div className='clearIconBtn'>
                             <ClearIcon onClick={() => handleCloseAddImages(1)}/>
                           </div>
-                          <img alt='images' src={addImages[0].path} width={150} height={150}/>
+                          <img alt='images' src={addImages[0]?.path} width={150} height={150}/>
                         </div> :
 
                         <label className='containerImage'>
@@ -186,13 +218,13 @@ const AddProduct = ({categoryList, brandList, newProduct}) => {
 
                     }
                     {
-                        addImages[1].name !== '' ?
+                        addImages[1]?.name !== '' ?
 
                         <div className='containerImage'>
                           <div className='clearIconBtn'>
                             <ClearIcon onClick={() => handleCloseAddImages(2)}/>
                           </div>
-                          <img alt='images' src={addImages[1].path} width={150} height={150}/>
+                          <img alt='images' src={addImages[1]?.path} width={150} height={150}/>
                         </div> :
 
                         <label className='containerImage'>
@@ -204,13 +236,13 @@ const AddProduct = ({categoryList, brandList, newProduct}) => {
                   </Grid>
                   <Grid item xs={12}>
                     {
-                        addImages[2].name !== '' ?
+                        addImages[2]?.name !== '' ?
 
                         <div className='containerImage'>
                           <div className='clearIconBtn'>
                             <ClearIcon onClick={() => handleCloseAddImages(3)}/>
                           </div>
-                          <img alt='images' src={addImages[2].path} width={150} height={150}/>
+                          <img alt='images' src={addImages[2]?.path} width={150} height={150}/>
                         </div> :
 
                         <label className='containerImage'>
@@ -220,13 +252,13 @@ const AddProduct = ({categoryList, brandList, newProduct}) => {
 
                     }
                     {
-                        addImages[3].name !== '' ?
+                        addImages[3]?.name !== '' ?
 
                         <div className='containerImage'>
                           <div className='clearIconBtn'>
                             <ClearIcon onClick={() => handleCloseAddImages(4)}/>
                           </div>
-                          <img alt='images' src={addImages[3].path} width={150} height={150}/>
+                          <img alt='images' src={addImages[3]?.path} width={150} height={150}/>
                         </div> :
 
                         <label className='containerImage'>

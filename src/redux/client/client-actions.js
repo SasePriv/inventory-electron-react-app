@@ -71,7 +71,7 @@ export const getAllInvoiceOfClients = (data) => {
   return async (dispatch) => {
     const responseData = await getInvoiceClientList(data);
     if (responseData.message === 'Successful') {
-      dispatch(setInvoiceOfVendorList(responseData.dataInvoiceClient));
+      dispatch(setInvoiceOfClientList(responseData.dataInvoiceClient));
     } else {
       emitErrorMessage(responseData.message);
       dispatch(setErrorData({

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 
@@ -21,14 +22,15 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 
-import CustomSelect from '../../Utils/CustomSelect/CustomSelect';
 import example from '../../../../assets/images/example1.png';
+
+import AddProduct from '../AddProduct/AddProduct';
 
 import FsLightbox from 'fslightbox-react';
 
 import './TableInventory.scss';
 
-//redux
+// redux
 import {createStructuredSelector} from 'reselect';
 import {connect} from 'react-redux';
 import {updatePriceProduct} from '../../../redux/inventory/inventory-actions';
@@ -41,6 +43,7 @@ const useRowStyles = makeStyles({
   },
 });
 
+// eslint-disable-next-line react/prop-types
 const Row = ({row, updatePriceProduct}) => {
   const [open, setOpen] = useState(false);
   const [firstImage, setFirstImage] = useState('');
@@ -60,7 +63,6 @@ const Row = ({row, updatePriceProduct}) => {
   const mininImage = () => {
     if (row.images) {
       for (let i = 0; i < row.images.length; i++) {
-        console.log('row', row.images[i]);
         if (row.images[i].name !== '') {
           setFirstImage(row.images[i].path);
           break;
@@ -125,7 +127,13 @@ const Row = ({row, updatePriceProduct}) => {
     setToggleBtn(!toggleBtn);
   };
 
-  console.log(vendor.toString());
+  const getGain = () => {
+    return vendor.price !== 0 ? Math.round(((vendor.price - vendor.cost) / vendor.cost) * 100) : 0;
+  };
+
+  // const countImages = () => {
+  //   return 
+  // }
 
   return (
     <React.Fragment>
@@ -162,9 +170,14 @@ const Row = ({row, updatePriceProduct}) => {
                     alt="imagen-producto"
                     src={firstImage !== '' ? firstImage : example}
                   />
-                  <button onClick={() => setToggler(!toggler)}>
+                  <Button
+                    onClick={() => setToggler(!toggler)}
+                    variant="contained"
+                    color="primary"
+                    className="verMas"
+                  >
                   Ver Mas
-                  </button>
+                  </Button>
                   <FsLightbox
                     toggler={toggler}
                     sources={allImages}
@@ -259,12 +272,18 @@ const Row = ({row, updatePriceProduct}) => {
                           endAdornment={<InputAdornment position="end">$</InputAdornment>}
                         />
                       </Grid>
+                      <Grid item xs={3}>
+                        <div className={`gain ${getGain() > 0 ? 'positive' : 'negative'}`}>
+                          % {getGain()}
+                        </div>
+                      </Grid>
                       <Grid item={2}>
                         <Button
                           variant="contained"
                           color="primary"
                           disabled={vendor === '' ? true : false}
                           onClick={togglePrice}
+                          className="mt-3"
                         >
                           {toggleBtn ? 'Guardar Precio' : 'Editar Precio'}
                         </Button>
@@ -272,10 +291,8 @@ const Row = ({row, updatePriceProduct}) => {
                     </Grid>
                   </Grid>
                   <Grid container item xs={12} spacing={3}>
-                    <Grid item xs={12} className="mt-4 btnSaveContainer">
-                      <Button variant="contained" color="primary">
-                        Editar
-                      </Button>
+                    <Grid item xs={12} className="btnSaveContainer">
+                      <AddProduct nameLabel={'Editar Producto'} product={row} iconToggle={true}/>
                     </Grid>
                   </Grid>
                 </Grid>

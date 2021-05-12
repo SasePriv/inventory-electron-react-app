@@ -92,6 +92,9 @@ exports.createInvoiceClient = async (data) => {
 
         if (vendorFindIndex !== null) {
           productsVendor[vendorFindIndex].stock -= Number(each.stock);
+          if (productsVendor[vendorFindIndex].stock < 0) {
+            return ({message: 'error-client-invoice-stock'});
+          }
         } else {
           return ({message: 'error-client-invoice-product'});
         }

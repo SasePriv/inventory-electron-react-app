@@ -22,8 +22,8 @@ import TextField from '@material-ui/core/TextField';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputAdornment from '@material-ui/core/InputAdornment';
 // Redux
-// import {invoiceVendorCreate} from '../../../redux/vendor/vendor-actions';
-// import {selectOneVendor} from '../../../redux/vendor/vendor-selectos';
+import {invoiceClientCreate} from '../../../redux/client/client-actions';
+import {selectOneClient} from '../../../redux/client/client-selectors';
 import {selectProductsList} from '../../../redux/inventory/inventory-selector';
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
@@ -48,69 +48,69 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddInvoice = ({podructList}) => {
+const AddInvoice = ({podructList, oneClient, invoiceClientCreate}) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({
-    vendorId: '',
-    date: '',
-    number: '',
+    clientId: '',
+    date: new Date(),
     products: [],
   });
   const [errorForm, setErrorForm] = useState({
-    errorNumber: '',
     errorDate: '',
     errorProducts: '',
   });
-  // const [vendorName, setVendorName] = useState('');
+  const [clientName, setClientName] = useState('');
   const [productForm, setProductForm] = useState({
     product: '',
     stock: 0,
-    cost: 0,
+    price: 0,
+    vendor: '',
   });
   const [errorProductForm, setErrorProductForm] = useState({
     errorProduct: '',
     errorStock: '',
-    errorCost: '',
+    errorPrice: '',
+    errorVendor: '',
   });
   const [productTableList, setProductTableList] = useState([]);
 
   const initialStates = () => {
     setForm({
       ...form,
-      // vendorId: '',
+      clientId: '',
       date: '',
-      number: '',
       products: [],
     });
     setErrorForm({
-      errorNumber: '',
       errorDate: '',
       errorProducts: '',
     });
     setProductForm({
       product: '',
       stock: 0,
-      cost: 0,
+      price: 0,
+      vendor: '',
     });
     setErrorProductForm({
       errorProduct: '',
       errorStock: '',
-      errorCost: '',
+      errorPrice: '',
+      errorVendor: '',
     });
     setProductTableList([]);
-    // setVendorName('');
+    setClientName('');
   };
 
-  // useEffect(() => {
-  //   if (oneVendor !== null) {
-  //     setForm({
-  //       ...form,
-  //       vendorId: oneVendor._id.toString(),
-  //     });
-  //     setVendorName(oneVendor.name);
-  //   };
-  // }, [oneVendor]);
+  useEffect(() => {
+    if (oneClient !== null) {
+      setForm({
+        ...form,
+        clientId: oneClient._id.toString(),
+      });
+      setClientName(oneClient.name);
+    };
+  }, [oneClient]);
 
   const handleOpen = () => {
     setOpen(true);
@@ -135,12 +135,21 @@ const AddInvoice = ({podructList}) => {
     });
   };
 
+  const handleChangeProductFormVendor = (event) => {
+    setProductForm({
+      ...productForm,
+      vendor: event.target.value,
+      price: event.target.value.price,
+    });
+  };
+
   const validFormProduct = () => {
     if (productForm.product === '') {
       setErrorProductForm({
         ...errorProductForm,
         errorProduct: 'No deje este campo vacio',
       });
+      console.log('produtco')
       return false;
     } else {
       setErrorProductForm({
@@ -154,6 +163,7 @@ const AddInvoice = ({podructList}) => {
         ...errorProductForm,
         errorStock: 'No deje este campo vacio',
       });
+      console.log('stock')
       return false;
     } else {
       setErrorProductForm({
@@ -162,23 +172,25 @@ const AddInvoice = ({podructList}) => {
       });
     }
 
-    if (productForm.cost === 0) {
+    if (productForm.price === 0) {
       setErrorProductForm({
         ...errorProductForm,
-        errorCost: 'No deje este campo vacio',
+        errorPrice: 'No deje este campo vacio',
       });
+      console.log('precio')
       return false;
     } else {
       setErrorProductForm({
         ...errorProductForm,
-        errorCost: '',
+        errorPrice: '',
       });
     }
 
     setErrorProductForm({
       errorProduct: '',
       errorStock: '',
-      errorCost: '',
+      errorPrice: '',
+      errorVendor: '',
     });
 
     return true;
@@ -194,37 +206,28 @@ const AddInvoice = ({podructList}) => {
           ...form.products,
           {
             id: productForm.product._id,
-            cost: productForm.cost,
+            price: productForm.price,
             stock: productForm.stock,
+            vendorId: productForm.vendor.vendorId,
           },
         ],
       });
       setProductForm({
         product: '',
         stock: 0,
-        cost: 0,
+        price: 0,
+        vendor: '',
       });
       setErrorProductForm({
         errorProduct: '',
         errorStock: '',
-        errorCost: '',
+        errorPrice: '',
+        errorVendor: '',
       });
     };
   };
 
   const handleValidationForm = () => {
-    if (form.number === '') {
-      setErrorForm({
-        ...errorForm,
-        errorNumber: 'No deje este campo vacio',
-      });
-      return false;
-    } else {
-      setErrorForm({
-        ...errorForm,
-        errorNumber: '',
-      });
-    }
     if (form.date === '') {
       setErrorForm({
         ...errorForm,
@@ -256,7 +259,7 @@ const AddInvoice = ({podructList}) => {
   const onCreateInvoice = () => {
     const isValid = handleValidationForm();
     if (isValid) {
-      invoiceVendorCreate(form);
+      invoiceClientCreate(form);
       handleClose();
     }
   };
@@ -267,7 +270,7 @@ const AddInvoice = ({podructList}) => {
         variant="contained"
         color="primary"
         onClick={handleOpen}
-        // disabled={oneVendor === null ? true : false}
+        disabled={oneClient === null ? true : false}
       >
         Agregar Nueva Factura
       </Button>
@@ -289,27 +292,14 @@ const AddInvoice = ({podructList}) => {
               <Grid item xs={12}>
                 <div className='titleInvoice'>Nueva Factura</div>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12}>
                 <TextField
                   id="outlined-number"
-                  label="Provedor"
+                  label="Cliente"
                   variant="outlined"
                   className="w-100"
                   disabled={true}
-                  // value={vendorName}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  id="outlined-number"
-                  label="Numero de Factura"
-                  variant="outlined"
-                  type="number"
-                  className="w-100"
-                  value={form.number}
-                  onChange={(e) => handleChangeForm(e, 'number')}
-                  error={errorForm.errorNumber !== '' ? true : false}
-                  helperText={errorForm.errorNumber}
+                  value={clientName}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -328,7 +318,7 @@ const AddInvoice = ({podructList}) => {
               <Grid item xs={12}>
                 <div>Agregar Productos</div>
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={6}>
                 <InputLabel id="demo-simple-select-outlined-label">Producto</InputLabel>
                 <div
                   className={`errorInputtext ${errorProductForm.errorProduct !== '' ? '' : 'hide'}`}
@@ -354,35 +344,65 @@ const AddInvoice = ({podructList}) => {
                   }
                 </Select>
               </Grid>
+              <Grid item xs={6}>
+                <InputLabel id="demo-simple-select-outlined-label">Provedor</InputLabel>
+                <div
+                  className={`errorInputtext ${errorProductForm.errorVendor !== '' ? '' : 'hide'}`}
+                >
+                  {errorProductForm.errorVendor}
+                </div>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={productForm.vendor}
+                  onChange={(e) => handleChangeProductFormVendor(e)}
+                  variant="outlined"
+                  label="Producto"
+                  className="w-100"
+                  disabled={productForm.product === '' ? true : false}
+                >
+                  {productForm.product.vendor?.length > 0 ?
+                    productForm.product.vendor.map((each, index) => {
+                      return (
+                        <MenuItem key={index} value={each}>{each.vendorName}</MenuItem>
+                      );
+                    }) :
+                    <MenuItem value=''>Ningun provedor registrado</MenuItem>
+                  }
+                </Select>
+              </Grid>
               <Grid item xs={3}>
                 <InputLabel id="demo-simple-select-outlined-label">Cantidad</InputLabel>
                 <TextField
                   id="outlined-number"
                   type="number"
                   variant="outlined"
+                  className="w-100"
                   defaultValue="0"
                   value={productForm.stock}
                   onChange={(e) => handleChangeProductForm(e, 'stock')}
                   error={errorProductForm.errorStock !== '' ? true : false}
                   helperText={errorProductForm.errorStock}
+                  disabled={productForm.vendor === '' ? true : false}
+                  InputProps={{inputProps: {min: '0', max: productForm.vendor.stock, step: '1'}}}
                 />
               </Grid>
               <Grid item xs={3}>
-                <InputLabel id="demo-simple-select-outlined-label">Costo</InputLabel>
+                <InputLabel id="demo-simple-select-outlined-label">Precio</InputLabel>
                 <OutlinedInput
                   id="outlined-required"
                   defaultValue="0"
                   // variant="outlined"
                   type="number"
                   startAdornment={<InputAdornment position="end">$</InputAdornment>}
-                  value={productForm.cost}
-                  onChange={(e) => handleChangeProductForm(e, 'cost')}
-                  error={errorProductForm.errorCost !== '' ? true : false}
-                  helperText={errorProductForm.errorCost}
+                  value={productForm.price}
+                  error={errorProductForm.errorPrice !== '' ? true : false}
+                  helperText={errorProductForm.errorPrice}
+                  disabled={true}
                 />
               </Grid>
               <Grid item xs={2}>
-                <Button 
+                <Button
                   variant="contained"
                   color="primary"
                   onClick={handleAddProduct}
@@ -408,7 +428,7 @@ const AddInvoice = ({podructList}) => {
                           Cantidad
                         </TableCell>
                         <TableCell>
-                          Costo
+                          Precio
                         </TableCell>
                       </TableRow>
                     </TableHead>
@@ -424,7 +444,7 @@ const AddInvoice = ({podructList}) => {
                                 <div>{row.stock}</div>
                               </TableCell>
                               <TableCell>
-                                <div>{row.cost}$</div>
+                                <div>{row.price}$</div>
                               </TableCell>
                             </TableRow>
                           );
@@ -447,12 +467,12 @@ const AddInvoice = ({podructList}) => {
 };
 
 const mapStateToProps = createStructuredSelector({
-  // oneVendor: selectOneVendor,
+  oneClient: selectOneClient,
   podructList: selectProductsList,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  // invoiceVendorCreate: (data) => dispatch(invoiceVendorCreate(data)),
+  invoiceClientCreate: (data) => dispatch(invoiceClientCreate(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddInvoice);

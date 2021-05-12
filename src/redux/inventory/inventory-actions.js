@@ -36,6 +36,7 @@ export const newProduct = (data) => {
         dispatch(getProductsList());
         emitSuccessfulMessage('Se ha creado el producto');
       } else {
+        console.log(respondeData);
         emitErrorMessage(respondeData.message);
         dispatch(setErrorData({
           typeError: 'server',
@@ -44,6 +45,7 @@ export const newProduct = (data) => {
         }));
       }
     } catch (error) {
+      console.log(error);
       emitErrorMessage(error);
       dispatch(setErrorData({
         typeError: 'server',

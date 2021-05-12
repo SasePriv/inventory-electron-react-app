@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 // React
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 
 // Material UI
 import Paper from '@material-ui/core/Paper';
@@ -16,17 +16,17 @@ import AddInvoice from '../AddInvoice/AddInvoice';
 // Styles
 import './SalesBill.scss';
 // Redux
-// import {getAllInvoiceOfVendors} from '../../../redux/vendor/vendor-actions';
-// import {selectInvoiceOfVendorList, selectOneVendor} from '../../../redux/vendor/vendor-selectos';
+import {getAllInvoiceOfClients} from '../../../redux/client/client-actions';
+import {selectInvoiceOfClientList, selectOneClient} from '../../../redux/client/client-selectors';
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
 
-const SalesBill = ({}) => {
-  // useEffect(() => {
-  //   if (oneVendor) {
-  //     getAllInvoiceOfVendors({vendorId: oneVendor._id});
-  //   }
-  // }, [oneVendor]);
+const SalesBill = ({invoiceList, oneClient, getAllInvoiceOfClients}) => {
+  useEffect(() => {
+    if (oneClient) {
+      getAllInvoiceOfClients({clientId: oneClient._id});
+    }
+  }, [oneClient]);
   return (
     <Paper elevation={3} className="salesBillPaper mt-4">
       <Grid container spacing={2}>
@@ -50,7 +50,7 @@ const SalesBill = ({}) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {/* {invoiceList ?
+                {invoiceList ?
                   invoiceList.map((each, index) => {
                     return (
                       <TableRow key={index}>
@@ -66,7 +66,7 @@ const SalesBill = ({}) => {
                       </TableRow>
                     );
                   }) : null
-                } */}
+                }
               </TableBody>
             </Table>
           </TableContainer>
@@ -80,12 +80,12 @@ const SalesBill = ({}) => {
 };
 
 const mapStateToProps = createStructuredSelector({
-  // invoiceList: selectInvoiceOfVendorList,
-  // oneVendor: selectOneVendor,
+  invoiceList: selectInvoiceOfClientList,
+  oneClient: selectOneClient,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  // getAllInvoiceOfVendors: (data) => dispatch(getAllInvoiceOfVendors(data)),
+  getAllInvoiceOfClients: (data) => dispatch(getAllInvoiceOfClients(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SalesBill);

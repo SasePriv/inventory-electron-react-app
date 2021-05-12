@@ -12,6 +12,21 @@
     }
   }
 
+  .gain {
+    font-size: 2.5rem;
+    margin-top: 5px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .positive {
+    color: #25b700;
+  }
+
+  .negative {
+    color: #ff002f;
+  }
+
   .eachProductRow{
     .imageTableRow{
       border: 1px solid #cecece;
@@ -35,6 +50,11 @@
   }
 
   .eachDetailProduct{
+
+    .verMas{
+      width: 89%;
+      margin-left: 14px;
+    }
 
     .imagesOption{
 

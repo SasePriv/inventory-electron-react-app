@@ -26,7 +26,7 @@ const HeaderInventory = () => {
           <CustomSearch />
         </div>
         <div>
-          <AddProduct />
+          <AddProduct nameLabel={'Añadir Producto'}/>
         </div>
       </div>
     </div>
