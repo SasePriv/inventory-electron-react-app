@@ -4,6 +4,7 @@ const {vendor: {
   getVendorList,
   createInvoiceVendor,
   getInvoiceVendorList,
+  updateVendorData,
 }} = remote.require('./main');
 
 module.exports = {
@@ -11,5 +12,6 @@ module.exports = {
   getVendorList,
   createInvoiceVendor,
   getInvoiceVendorList,
+  updateVendorData
 };
 

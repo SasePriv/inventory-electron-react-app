@@ -18,7 +18,7 @@ import CustomSelect from '../../Utils/CustomSelect/CustomSelect';
 import {emitErrorMessage} from '../../../utils/notifications';
 
 import {selectBrandList, selectCategoryList} from '../../../redux/inventory/inventory-selector';
-import {newProduct} from '../../../redux/inventory/inventory-actions';
+import {newProduct, updateDataProduct} from '../../../redux/inventory/inventory-actions';
 
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddProduct = ({categoryList, brandList, newProduct, nameLabel, iconToggle = false, product = null}) => {
+const AddProduct = ({categoryList, brandList, newProduct, nameLabel, iconToggle = false, product = null, updateDataProduct}) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
@@ -168,8 +168,11 @@ const AddProduct = ({categoryList, brandList, newProduct, nameLabel, iconToggle 
   const onCreate = () => {
     const isValid = checkForm();
     if (isValid) {
-      console.log(form);
-      newProduct(form);
+      if (product === null) {
+        newProduct(form);
+      } else {
+        updateDataProduct({...form, _id: product._id});
+      }
       handleClose();
     };
   };
@@ -345,7 +348,7 @@ const AddProduct = ({categoryList, brandList, newProduct, nameLabel, iconToggle 
                         color="primary"
                         onClick={onCreate}
                       >
-                        Crear Producto
+                        {product === null ? 'Crear Producto' : 'Editar el producto'}
                       </Button>
                     </Grid>
                   </Grid>
@@ -366,6 +369,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = (dispatch) => ({
   newProduct: (data) => dispatch(newProduct(data)),
+  updateDataProduct: (data) => dispatch(updateDataProduct(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddProduct);

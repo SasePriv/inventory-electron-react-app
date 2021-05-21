@@ -15,7 +15,7 @@ exports.createProduct = async (data) => {
 
     const findProduct = await ProductModel.find({name: name.toLowerCase()});
 
-    if (findProduct.length) {
+    if (findProduct.length > 0) {
       return ({message: 'product-exist'});
     }
 
@@ -92,4 +92,38 @@ exports.updateProductPrice = async (data) => {
     console.log(error);
     return ({message: 'error-general'});
   };
+};
+
+exports.updateProductData = async (data) => {
+  try {
+    const {
+      name,
+      brand,
+      category,
+      description,
+      sku,
+      code,
+      images,
+      _id,
+    } = data;
+
+    const findProduct = await ProductModel.findByIdAndUpdate(_id, {
+      name,
+      brand,
+      category,
+      description,
+      sku,
+      code,
+      images,
+    }, {new: true});
+
+    if (findProduct === null) {
+      return ({message: 'product-no-exist'});
+    }
+
+    return ({message: 'Successful'});
+  } catch (error) {
+    console.log(error);
+    return ({message: 'error-general'});
+  }
 };

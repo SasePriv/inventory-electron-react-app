@@ -18,6 +18,9 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import LocalShippingIcon from '@material-ui/icons/LocalShipping';
+import StorageIcon from '@material-ui/icons/Storage';
 import Badge from '@material-ui/core/Badge';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Collapse from '@material-ui/core/Collapse';
@@ -162,9 +165,9 @@ function LeftNav({titleWindow, children}) {
         }}
       >
         <div className={classes.toolbar} style={{minHeight: '30px'}}>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
+          {/* <IconButton onClick={handleDrawerClose}>
+            {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+          </IconButton> */}
         </div>
         <Divider />
         <List>
@@ -189,14 +192,14 @@ function LeftNav({titleWindow, children}) {
 
           <Link to="/vendors">
             <ListItem button>
-              <ListItemIcon><MailIcon /></ListItemIcon>
+              <ListItemIcon><LocalShippingIcon /></ListItemIcon>
               <ListItemText primary="Provedores" />
             </ListItem>
           </Link>
 
           <Link to="/sales">
             <ListItem button>
-              <ListItemIcon><InboxIcon /></ListItemIcon>
+              <ListItemIcon><AddShoppingCartIcon /></ListItemIcon>
               <ListItemText primary="Ventas" />
             </ListItem>
           </Link>
@@ -204,20 +207,20 @@ function LeftNav({titleWindow, children}) {
         </List>
         <Divider />
         <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+          <Link to="/database">
+            <ListItem button>
+              <ListItemIcon><StorageIcon /></ListItemIcon>
+              <ListItemText primary="Base de Datos" />
             </ListItem>
-          ))}
+          </Link>
         </List>
 
-        <div className="userPArt">
+        {/* <div className="userPArt">
           <Divider />
           <div>
 
           </div>
-        </div>
+        </div> */}
 
       </Drawer>
       <div className="contentContainer">

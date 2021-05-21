@@ -131,9 +131,17 @@ const Row = ({row, updatePriceProduct}) => {
     return vendor.price !== 0 ? Math.round(((vendor.price - vendor.cost) / vendor.cost) * 100) : 0;
   };
 
-  // const countImages = () => {
-  //   return 
-  // }
+  const countImages = () => {
+    let contador = 0;
+    if (row.images) {
+      for (let i = 0; i < row.images.length; i++) {
+        if (row.images[i].name !== '') {
+          contador += 1;
+        }
+      }
+    }
+    return contador;
+  };
 
   return (
     <React.Fragment>
@@ -183,7 +191,7 @@ const Row = ({row, updatePriceProduct}) => {
                     sources={allImages}
                   />
 
-                  <div>{row.images ? row.images.length : 0} fotos</div>
+                  <div>{countImages()} fotos</div>
                 </Grid>
                 <Grid item xs={10}>
                   <Grid container item xs={12} spacing={3}>

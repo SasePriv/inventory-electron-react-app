@@ -146,3 +146,33 @@ exports.getInvoiceVendorList = async (data) => {
     return ({message: 'error-general'});
   }
 };
+
+exports.updateVendorData = async(data) => {
+  try {
+    const {
+      name,
+      country,
+      phone,
+      email,
+      _id,
+    } = data;
+
+    console.log(data);
+
+    const findVendor = await VendorSchema.findByIdAndUpdate(_id, {
+      name,
+      country,
+      phone,
+      email,
+    }, {new: true});
+
+    if (findVendor === null) {
+      return ({message: 'vendor-no-exist'});
+    }
+
+    return ({message: 'Successful'});
+  } catch (error) {
+    console.log(error);
+    return ({message: 'error-general'});
+  }
+};

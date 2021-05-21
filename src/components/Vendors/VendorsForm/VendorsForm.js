@@ -7,6 +7,8 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
+import AddVendor from '../AddVendors/AddVendors';
+
 import {selectOneVendor} from '../../../redux/vendor/vendor-selectos';
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
@@ -82,9 +84,7 @@ const VendorsForm = ({vendor}) => {
         </Grid>
         <Grid container item xs={12} justify="flex-end" spacing={2}>
           <div className="btnContainer">
-            <Button variant="contained" color="primary" disabled={vendor === null ? true : false}>
-              Editar
-            </Button>
+            {vendor !== null && <AddVendor vendor={vendor}/>}
           </div>
         </Grid>
       </Grid>

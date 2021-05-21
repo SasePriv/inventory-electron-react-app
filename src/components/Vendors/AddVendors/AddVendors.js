@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import {makeStyles} from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
@@ -11,7 +11,7 @@ import Button from '@material-ui/core/Button';
 
 import {emitErrorMessage} from '../../../utils/notifications';
 
-import {vendorCreate} from '../../../redux/vendor/vendor-actions';
+import {vendorCreate, updateDataVendor} from '../../../redux/vendor/vendor-actions';
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
 
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddVendors = ({vendorCreate}) => {
+const AddVendors = ({vendorCreate, vendor = null, updateDataVendor}) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({
@@ -48,6 +48,17 @@ const AddVendors = ({vendorCreate}) => {
     errorEmail: '',
     errorPhone: '',
   });
+
+  useEffect(() => {
+    if (vendor !== null) {
+      setForm({
+        name: vendor.name,
+        country: vendor.country,
+        email: vendor.email,
+        phone: vendor.phone,
+      });
+    }
+  }, [vendor]);
 
   const initialValues = () => {
     setForm({
@@ -103,7 +114,11 @@ const AddVendors = ({vendorCreate}) => {
   const handleCreate = () => {
     const isValid = validateForm();
     if (isValid) {
-      vendorCreate(form);
+      if (vendor === null) {
+        vendorCreate(form);
+      } else {
+        updateDataVendor({...form, _id: vendor._id});
+      }
       handleClose();
     }
   };
@@ -114,14 +129,20 @@ const AddVendors = ({vendorCreate}) => {
 
   const handleClose = () => {
     setOpen(false);
-    initialValues();
+    if (vendor === false) {
+      initialValues();
+    }
   };
 
   return (
     <div>
       <div className='d-flex AddVendor' onClick={handleOpen}>
-        {/* <AddShoppingCartIcon /> */}
-        <div className='textVendor'>Añadir Proveedor</div>
+        { vendor === null ?
+          <div className='textVendor'>Añadir Proveedor</div> :
+          <Button variant="contained" color="primary" disabled={vendor === null ? true : false}>
+            Editar Proveedor
+          </Button>
+        }
       </div>
       <Modal
         aria-labelledby="transition-modal-title"
@@ -192,7 +213,7 @@ const AddVendors = ({vendorCreate}) => {
               <Grid container item xs={12} justify="flex-end" spacing={2}>
                 <div className="btnContainer">
                   <Button variant="contained" color="primary" onClick={handleCreate}>
-                  Crear Provedor
+                    {vendor === null ? 'Crear Provedor' : 'Editar Provedor'}
                   </Button>
                 </div>
               </Grid>
@@ -210,6 +231,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = (dispatch) => ({
   vendorCreate: (data) => dispatch(vendorCreate(data)),
+  updateDataVendor: (data) => dispatch(updateDataVendor(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddVendors);

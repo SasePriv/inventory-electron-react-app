@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "webpack --config webpack.common.js --watch",
-    "start": "electron ."
+    "start": "electron .",
+    "build": "electron-packager ."
   },
   "keywords": [],
   "author": "",
@@ -52,6 +53,7 @@
     "babel-loader": "^8.2.2",
     "css-loader": "^5.0.1",
     "electron-devtools-installer": "^3.1.1",
+    "electron-packager": "^15.2.0",
     "electron-reload": "^1.5.0",
     "eslint": "^7.21.0",
     "eslint-config-google": "^0.14.0",

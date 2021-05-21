@@ -1,6 +1,11 @@
 import InventoryActionTypes from './inventory-type';
 import {getAllCategory, createCategory, deleteCategory} from '../../services/category/categoryService';
-import {createProduct, getAllProducts, updateProductPrice} from '../../services/product/productService';
+import {
+  createProduct,
+  getAllProducts,
+  updateProductPrice,
+  updateProductData
+} from '../../services/product/productService';
 import {getAllBrand, createBrand, deleteBrand} from '../../services/brand/brandService';
 import {handleError} from '../../utils/handleErrors';
 import {setErrorData} from '../errorsInputs/errorsInputs-actions';
@@ -64,6 +69,48 @@ export const updatePriceProduct = (data) => {
         console.log('Precio Actualizado');
         dispatch(getProductsList());
         emitSuccessfulMessage('Se ha actualizado el precio del producto');
+      } else {
+        emitErrorMessage(respondeData.message);
+        dispatch(setErrorData({
+          typeError: 'server',
+          errorMessage: handleError(respondeData.message),
+          statusError: true,
+        }));
+      }
+    } catch (error) {
+      emitErrorMessage(error);
+      dispatch(setErrorData({
+        typeError: 'server',
+        errorMessage: handleError(error),
+        statusError: true,
+      }));
+    }
+  };
+};
+
+export const searchProductList = (data) => ({
+  type: InventoryActionTypes.SET_SEARCH_LIST,
+  payload: data,
+});
+
+export const searchCategoyList = (data) => ({
+  type: InventoryActionTypes.SET_SEARCH_CATEGORY_LIST,
+  payload: data,
+});
+
+export const searchBrandList = (data) => ({
+  type: InventoryActionTypes.SET_SEARCH_BRAND_LIST,
+  payload: data,
+});
+
+export const updateDataProduct = (data) => {
+  return async (dispatch) => {
+    try {
+      const respondeData = await updateProductData(data);
+      if (respondeData.message === 'Successful') {
+        console.log('Producto Actualizado');
+        dispatch(getProductsList());
+        emitSuccessfulMessage('Se ha actualizado el producto');
       } else {
         emitErrorMessage(respondeData.message);
         dispatch(setErrorData({

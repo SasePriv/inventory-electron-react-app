@@ -7,6 +7,7 @@ import {
   createVendor,
   createInvoiceVendor,
   getInvoiceVendorList,
+  updateVendorData
 } from '../../services/vendor/vendorService';
 
 export const setVendorList = (data) => ({
@@ -21,6 +22,11 @@ export const setOneVendor = (data) => ({
 
 export const setInvoiceOfVendorList = (data) => ({
   type: VendorActionTypes.SET_INVOICE_OF_VENDOR_LIST,
+  payload: data,
+});
+
+export const searchVendorList = (data) => ({
+  type: VendorActionTypes.SET_SEARCH_VENDOR_LIST,
   payload: data,
 });
 
@@ -95,6 +101,34 @@ export const invoiceVendorCreate = (data) => {
         dispatch(setErrorData({
           typeError: 'server',
           errorMessage: handleError(responseData.message),
+          statusError: true,
+        }));
+      }
+    } catch (error) {
+      emitErrorMessage(error);
+      dispatch(setErrorData({
+        typeError: 'server',
+        errorMessage: handleError(error),
+        statusError: true,
+      }));
+    }
+  };
+};
+
+export const updateDataVendor = (data) => {
+  return async (dispatch) => {
+    try {
+      const respondeData = await updateVendorData(data);
+      console.log(respondeData);
+      if (respondeData.message === 'Successful') {
+        console.log('Producto Actualizado');
+        dispatch(getAllVendors());
+        emitSuccessfulMessage('Se ha actualizado el proveedor');
+      } else {
+        emitErrorMessage(respondeData.message);
+        dispatch(setErrorData({
+          typeError: 'server',
+          errorMessage: handleError(respondeData.message),
           statusError: true,
         }));
       }

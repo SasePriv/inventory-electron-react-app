@@ -6,7 +6,8 @@ import SearchIcon from '@material-ui/icons/Search';
 
 import './CustomSearch.scss';
 
-const CustomSearch = () => {
+// eslint-disable-next-line react/prop-types
+const CustomSearch = ({onChange}) => {
   return (
     <div className="CustomSearch">
       <Grid container alignItems="flex-end">
@@ -14,7 +15,12 @@ const CustomSearch = () => {
           <SearchIcon className="iconSearch"/>
         </Grid>
         <Grid item>
-          <TextField className="inputSearch" placeholder="Busqueda rapida" id="input-with-icon-grid" />
+          <TextField
+            className="inputSearch"
+            placeholder="Busqueda rapida"
+            id="input-with-icon-grid"
+            onChange={onChange}
+          />
         </Grid>
       </Grid>
     </div>
