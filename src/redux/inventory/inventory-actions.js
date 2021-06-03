@@ -16,6 +16,11 @@ export const setProductsList = (data) => ({
   payload: data,
 });
 
+export const setProductUpdated = (data) => ({
+  type: InventoryActionTypes.SET_PRODUCT_UPDATED,
+  payload: data,
+});
+
 export const getProductsList = () => {
   return async (dispatch) => {
     const respondeData = await getAllProducts();
@@ -60,6 +65,8 @@ export const newProduct = (data) => {
     }
   };
 };
+
+
 
 export const updatePriceProduct = (data) => {
   return async (dispatch) => {

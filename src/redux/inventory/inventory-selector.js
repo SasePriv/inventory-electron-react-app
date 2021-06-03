@@ -16,3 +16,8 @@ export const selectProductsList = createSelector(
     [selectInventory],
     (inventory) => inventory.productsList,
 );
+
+export const selectProductUpdated = createSelector(
+    [selectInventory],
+    (inventory) => inventory.productUpdated,
+);

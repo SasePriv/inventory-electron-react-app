@@ -1,0 +1,111 @@
+.table-collapse{
+  .hiddenRow {
+    padding: 0 !important;
+  }
+
+  .gain {
+    font-size: 2.5rem;
+    margin-top: 5px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .positive {
+    color: #25b700;
+  }
+
+  .negative {
+    color: #ff002f;
+  }
+
+  // .eachProductRow{
+  //   .imageTableRow{
+  //     border: 1px solid #cecece;
+  //     border-radius: 10px;
+  //     padding: 2px;
+  //     width: 50px;
+  //     height: 50px;
+  //   }
+
+  //   td{
+  //     color: #7c7c7c;
+  //     font-weight: 600;
+  //     letter-spacing: 0.5px;
+  //   }
+
+  //   .CustomSelect{
+  //     margin: 0px;
+  //     width: 90%;
+  //   }
+    
+  // }
+
+  .containerDetail{
+
+    .verMas{
+      width: 100%;
+      // margin-left: 14px;
+      margin-top: 5px;
+    }
+
+    .imagesOption{
+
+      text-align: center;
+
+      .imageDetailRow{
+        // border: 1px solid #cecece;
+        // border-radius: 10px;
+        // padding: 4px;
+        // width: 120px;
+        // height: 120px;
+        // margin-left: 10px;
+        width: 100%;
+      }
+
+      div{
+        font-size: 0.8rem;
+        margin: 10px 0px;
+        color: #7c7c7c;
+        // font-weight: 600;
+        letter-spacing: 0.5px; 
+      }
+
+      .addImageBtn{
+        color: #303f9f;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none; 
+      }
+
+      .addImageBtn:active{
+        color: #6070d8;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none; 
+      }
+
+    }
+
+    .containerDetail{
+      border: 1px solid #cecece;
+      border-radius: 10px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    input{
+      font-size: 0.9rem;
+      color: #7c7c7c;
+      font-weight: 600;
+      letter-spacing: 0.5px;  
+    }
+
+    .btnSaveContainer{
+      text-align: right;
+    }
+  }
+
+}

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import HeaderInventory from '../../components/Inventory/HeaderInventory/HeaderInventory';
 import TableInventory from '../../components/Inventory/TableInventory/TableInventory';
+import TableCollapse from '../../components/Inventory/TableCollapse/TableCollapse';
 import MoreOptionInventory from '../../components/Inventory/MoreOptionInventory/MoreOptionInventory';
 import LeftNav from '../../components/NavBar/LeftNav/LeftNav';
 
@@ -15,6 +16,8 @@ import Grid from '@material-ui/core/Grid';
 
 
 import './Inventory.scss';
+
+const headerList = ['#', 'SKU', 'Nombre', 'Categoria', 'Precio', 'Stock'];
 
 const Inventory = ({getProductsList, productsList}) => {
   useEffect(() => {
@@ -30,7 +33,8 @@ const Inventory = ({getProductsList, productsList}) => {
           </Grid>
           <Grid item xs={12}>
             <div className='tableContainer'>
-              <TableInventory data={productsList}/>
+              {/* <TableInventory data={productsList}/> */}
+              <TableCollapse headerList={headerList} data={productsList}/>
             </div>
           </Grid>
         </Grid>

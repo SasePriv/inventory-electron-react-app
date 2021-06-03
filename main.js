@@ -23,7 +23,7 @@ function createWindow() {
       // contextIsolation: true
     },
   });
-  win.removeMenu();
+  // win.removeMenu();
   win.loadFile('index.html');
 }
 

@@ -85,9 +85,9 @@ exports.updateProductPrice = async (data) => {
 
     findProduct.vendor = vendorArray;
 
-    await findProduct.save();
+    const newProductData = await findProduct.save();
 
-    return ({message: 'Successful'});
+    return ({message: 'Successful', productData: newProductData});
   } catch (error) {
     console.log(error);
     return ({message: 'error-general'});
@@ -118,7 +118,7 @@ exports.updateProductData = async (data) => {
     }, {new: true});
 
     if (findProduct === null) {
-      return ({message: 'product-no-exist'});
+      return ({message: 'product-no-exist', productData: findProduct});
     }
 
     return ({message: 'Successful'});

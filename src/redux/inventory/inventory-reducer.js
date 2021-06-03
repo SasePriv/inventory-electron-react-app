@@ -5,6 +5,7 @@ const INITIAL_STATE = {
   brandList: [],
   productsList: [],
   originalData: [],
+  productUpdated: null,
 };
 
 const InventoryReducer = (state = INITIAL_STATE, action) => {
@@ -33,13 +34,18 @@ const InventoryReducer = (state = INITIAL_STATE, action) => {
     case InventoryActionTypes.SET_SEARCH_LIST:
       productsList = state.originalData.filter((each) => {
         const lowerName = each.name.toLowerCase();
-        if (lowerName.includes(payload.toLowerCase())) {
+        if (payload !== '' && lowerName.includes(payload.toLowerCase())) {
           return each;
         }
       });
+
+      if (payload === '') {
+        productsList = state.originalData;
+      }
+
       return {
         ...state,
-        productsList: [...productsList],
+        productsList,
       };
     case InventoryActionTypes.SET_SEARCH_CATEGORY_LIST:
       productsList = state.originalData.filter((each) => {
@@ -60,6 +66,11 @@ const InventoryReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         productsList: [...productsList],
+      };
+    case InventoryActionTypes.SET_PRODUCT_UPDATED:
+      return {
+        ...state,
+        productUpdated: payload,
       };
     default:
       return state;

@@ -318,6 +318,15 @@ Row.propTypes = {
 };
 
 const TableInventory = ({data, updatePriceProduct}) => {
+  const [time, setTime] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setTime(true);
+    }, 500);
+  }, []);
+
+
   return (
     <TableContainer className='TableInventory'>
       <Table aria-label="collapsible table">
@@ -334,7 +343,7 @@ const TableInventory = ({data, updatePriceProduct}) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((row, index) => (
+          {time && data.map((row, index) => (
             <Row key={index} row={row} updatePriceProduct={updatePriceProduct}/>
           ))}
         </TableBody>
