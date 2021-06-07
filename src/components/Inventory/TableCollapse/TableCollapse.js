@@ -23,9 +23,10 @@ import imageDefault from '../../../../assets/images/example1.png';
 import {createStructuredSelector} from 'reselect';
 import {connect} from 'react-redux';
 import {updatePriceProduct} from '../../../redux/inventory/inventory-actions';
+// Components
+import ViewProduct from '../ViewProduct/ViewProduct';
 
 const TableCollapse = ({headerList, data, updatePriceProduct}) => {
-
   const TableRow = ({keyNumber, row}) => {
     const [open, setOpen] = useState(false);
     const [firstImage, setFirstImage] = useState('');
@@ -124,186 +125,26 @@ const TableCollapse = ({headerList, data, updatePriceProduct}) => {
       return contador;
     };
 
+    const handleOpenModal = () => {
+      setOpen(true);
+    };
+
+    const handleCloseModal = () => {
+      setOpen(false);
+    };
+
     return (
       <React.Fragment>
         <tr
-          data-toggle="collapse"
-          data-target={`#row${keyNumber}`}
           className="accordion-toggle"
         >
-          <td>
-            <IconButton size="small">
-              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-            </IconButton>
-          </td>
           <td>{row.sku ? row.sku : '-'}</td>
           <td>{row.name}</td>
           <td>{row.category ? row.category : '-'}</td>
           <td>{vendor !== '' ? vendor.price + '$' : '-'}</td>
           <td>{vendor !== '' ? vendor.stock : '-'}</td>
         </tr>
-        <tr>
-          <td colSpan="12" className="hiddenRow">
-            <div className="accordian-body collapse" id={`row${keyNumber}`}>
-              <Box margin={1} className="containerDetail">
-                <Grid container spacing={3}>
-                  <Grid item xs={2} className="imagesOption">
-                    <img
-                      className="imageDetailRow"
-                      alt="imagen-producto"
-                      src={firstImage !== '' ? firstImage : imageDefault}
-                    />
-                    <Button
-                      onClick={() => setToggler(!toggler)}
-                      variant="contained"
-                      color="primary"
-                      className="verMas"
-                    >
-                      Ver Mas
-                    </Button>
-                    <FsLightbox toggler={toggler} sources={allImages} />
-
-                    <div>{countImages()} fotos</div>
-                  </Grid>
-                  <Grid item xs={10}>
-                    <Grid container item xs={12} spacing={3}>
-                      <Grid item xs={6}>
-                        <TextField
-                          className="w-100"
-                          id="standard-basic"
-                          label="Nombre"
-                          value={row.name}
-                          disabled={true}
-                        />
-                      </Grid>
-                      <Grid item xs={6}>
-                        <TextField
-                          id="standard-select-currency"
-                          select
-                          label="Provedor"
-                          className="w-100"
-                          value={vendorIndex}
-                          onChange={handleChangeVendor}
-                          helperText="Please select your currency"
-                        >
-                          {row.vendor.length > 0 ? (
-                            row.vendor.map((each, index) => {
-                              return (
-                                <MenuItem value={index} key={index}>
-                                  {each.vendorName}
-                                </MenuItem>
-                              );
-                            })
-                          ) : (
-                            <MenuItem value="">
-                              Sin provedor para este producto
-                            </MenuItem>
-                          )}
-                        </TextField>
-                      </Grid>
-                      <Grid item xs={3}>
-                        <TextField
-                          className="w-100"
-                          id="standard-basic"
-                          label="SKU"
-                          value={row.sku ? row.sku : '-'}
-                          disabled={true}
-                        />
-                      </Grid>
-                      <Grid item xs={3}>
-                        <TextField
-                          className="w-100"
-                          id="standard-basic"
-                          label="Marca"
-                          value={row.category ? row.category : '-'}
-                          disabled={true}
-                        />
-                      </Grid>
-                      <Grid container item xs={12} spacing={2}>
-                        <Grid item xs={2}>
-                          <InputLabel htmlFor="standard-basic-stock">
-                            Stock
-                          </InputLabel>
-                          <Input
-                            className="w-100"
-                            id="standard-basic-stock"
-                            value={vendor ? vendor.stock : 0}
-                            type="number"
-                            disabled={true}
-                          />
-                        </Grid>
-                        <Grid item xs={2}>
-                          <InputLabel htmlFor="standard-basic-cost">
-                            Costo
-                          </InputLabel>
-                          <Input
-                            className="w-100"
-                            id="standard-basic-cost"
-                            value={vendor ? vendor.cost : 0}
-                            disabled={true}
-                            type="number"
-                            endAdornment={
-                              <InputAdornment position="end">
-                                $
-                              </InputAdornment>
-                            }
-                          />
-                        </Grid>
-                        <Grid item xs={2}>
-                          <InputLabel htmlFor="standard-basic-price">
-                            Precio
-                          </InputLabel>
-                          <Input
-                            className="w-100"
-                            id="standard-basic-price"
-                            value={vendor ? vendor.price : 0}
-                            onChange={handleChangePrice}
-                            disabled={!toggleBtn}
-                            type="number"
-                            endAdornment={
-                              <InputAdornment position="end">
-                                $
-                              </InputAdornment>
-                            }
-                          />
-                        </Grid>
-                        <Grid item xs={3}>
-                          <div
-                            className={`gain ${
-                              getGain() > 0 ? 'positive' : 'negative'
-                            }`}
-                          >
-                            % {getGain()}
-                          </div>
-                        </Grid>
-                        <Grid item={2}>
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            disabled={vendor === '' ? true : false}
-                            onClick={togglePrice}
-                            className="mt-3"
-                          >
-                            {toggleBtn ? 'Guardar Precio' : 'Editar Precio'}
-                          </Button>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                    <Grid container item xs={12} spacing={3}>
-                      <Grid item xs={12} className="btnSaveContainer">
-                        <AddProduct
-                          nameLabel={'Editar Producto'}
-                          product={row}
-                          iconToggle={true}
-                        />
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Box>
-            </div>
-          </td>
-        </tr>
+        <ViewProduct />
       </React.Fragment>
     );
   };

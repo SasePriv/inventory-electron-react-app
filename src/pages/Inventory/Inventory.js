@@ -17,7 +17,7 @@ import Grid from '@material-ui/core/Grid';
 
 import './Inventory.scss';
 
-const headerList = ['#', 'SKU', 'Nombre', 'Categoria', 'Precio', 'Stock'];
+const headerList = ['SKU', 'Nombre', 'Categoria', 'Precio', 'Stock'];
 
 const Inventory = ({getProductsList, productsList}) => {
   useEffect(() => {
