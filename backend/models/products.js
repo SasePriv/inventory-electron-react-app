@@ -8,13 +8,14 @@ const productsSchema = mongoose.Schema(
       code: String,
       brand: {type: String, default: null},
       description: String,
-      vendor: [{
-        vendorName: String,
-        vendorId: String,
-        cost: Number,
+      data: [{
+        invoicesIn: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'InvoiceVendor',
+        },
+        cost: {type: Number, default: 0},
         stock: {type: Number, default: 0},
         price: {type: Number, default: 0},
-        invoicesId: [{type: String}],
       }],
       images: [{
         name: {type: String},

@@ -22,133 +22,72 @@ import imageDefault from '../../../../assets/images/example1.png';
 // redux
 import {createStructuredSelector} from 'reselect';
 import {connect} from 'react-redux';
-import {updatePriceProduct} from '../../../redux/inventory/inventory-actions';
 // Components
 import ViewProduct from '../ViewProduct/ViewProduct';
 
-const TableCollapse = ({headerList, data, updatePriceProduct}) => {
-  const TableRow = ({keyNumber, row}) => {
-    const [open, setOpen] = useState(false);
-    const [firstImage, setFirstImage] = useState('');
-    const [allImages, setAllImages] = useState([]);
-    const [vendorIndex, setVendorIndex] = useState(0);
-    const [vendor, setVendor] = useState('');
-    const [toggleBtn, setToggleBtn] = useState(false);
-    const [toggler, setToggler] = useState(false);
+const TableRow = ({keyNumber, row}) => {
+  const [open, setOpen] = useState(false);
 
-    useEffect(() => {
-      mininImage();
-      loadImages();
-      loadFirstVendor();
-    }, []);
-
-    const mininImage = () => {
-      if (row.images) {
-        for (let i = 0; i < row.images.length; i++) {
-          if (row.images[i].name !== '') {
-            setFirstImage(row.images[i].path);
-            break;
-          }
-        }
-      }
-    };
-
-    const loadFirstVendor = () => {
-      if (row.vendor.length > 0) {
-        setVendor({
-          vendorId: row.vendor[0].vendorId,
-          price: row.vendor[0].price,
-          cost: row.vendor[0].cost,
-          stock: row.vendor[0].stock,
-        });
-      }
-    };
-
-    const loadImages = () => {
-      const data = [];
-      if (row.images) {
-        for (let i = 0; i < row.images.length; i++) {
-          if (row.images[i].name !== '') {
-            data.push(String.raw`${row.images[i].path}`);
-          }
-        }
-        if (data.length > 0) {
-          setAllImages(data);
-        } else {
-          setAllImages([imageDefault]);
-        }
-      }
-    };
-
-    const handleChangeVendor = (event) => {
-      setVendorIndex(event.target.value);
-      setVendor({
-        vendorId: row.vendor[event.target.value].vendorId,
-        price: row.vendor[event.target.value].price,
-        cost: row.vendor[event.target.value].cost,
-        stock: row.vendor[event.target.value].stock,
-      });
-    };
-
-    const handleChangePrice = (event) => {
-      setVendor({
-        ...vendor,
-        price: event.target.value,
-      });
-      price: row.vendor[event.target.value].price = event.target.value;
-    };
-
-    const togglePrice = () => {
-      if (toggleBtn) {
-        updatePriceProduct({
-          vendorId: vendor.vendorId,
-          price: parseInt(vendor.price),
-          productId: row._id,
-        });
-      }
-      setToggleBtn(!toggleBtn);
-    };
-
-    const getGain = () => {
-      return vendor.price !== 0 ? Math.round(((vendor.price - vendor.cost) / vendor.cost) * 100) : 0;
-    };
-
-    const countImages = () => {
-      let contador = 0;
-      if (row.images) {
-        for (let i = 0; i < row.images.length; i++) {
-          if (row.images[i].name !== '') {
-            contador += 1;
-          }
-        }
-      }
-      return contador;
-    };
-
-    const handleOpenModal = () => {
-      setOpen(true);
-    };
-
-    const handleCloseModal = () => {
-      setOpen(false);
-    };
-
-    return (
-      <React.Fragment>
-        <tr
-          className="accordion-toggle"
-        >
-          <td>{row.sku ? row.sku : '-'}</td>
-          <td>{row.name}</td>
-          <td>{row.category ? row.category : '-'}</td>
-          <td>{vendor !== '' ? vendor.price + '$' : '-'}</td>
-          <td>{vendor !== '' ? vendor.stock : '-'}</td>
-        </tr>
-        <ViewProduct />
-      </React.Fragment>
-    );
+  const handleOpenModal = () => {
+    setOpen(true);
   };
 
+  const handleCloseModal = () => {
+    setOpen(false);
+  };
+
+  const genStock = () => {
+    let stock = 0;
+    row.data.map((each) => {
+      stock += each.stock;
+    });
+    return stock;
+  };
+
+  const rangePrice = () => {
+    let numMayor = row.data[0]?.price;
+    let numMeno = row.data[0]?.price;
+    let final = '';
+    row.data.map((each) => {
+      if (each.price > numMayor) {
+        numMayor = each.price;
+      };
+      if (each.price < numMeno) {
+        numMeno = each.price;
+      };
+    });
+
+    if (numMayor === numMeno) {
+      final = numMayor;
+    } else {
+      final = `${numMeno}-${numMayor}`;
+    }
+
+    return final;
+  };
+
+  return (
+    <React.Fragment>
+      <tr
+        className="rowTable"
+        onClick={handleOpenModal}
+      >
+        <td>{row.sku ? row.sku : '-'}</td>
+        <td>{row.name}</td>
+        <td>{row.category ? row.category : '-'}</td>
+        <td>{rangePrice() !== undefined ? `${rangePrice()}$` : '-'}</td>
+        <td>{`${genStock()}`}</td>
+      </tr>
+      <ViewProduct
+        open={open}
+        handleClose={handleCloseModal}
+        data={row}
+      />
+    </React.Fragment>
+  );
+};
+
+const TableCollapse = ({headerList, data}) => {
   return (
     <div className="table-collapse container">
       <table className="table table-condensed table-striped">
@@ -169,12 +108,4 @@ const TableCollapse = ({headerList, data, updatePriceProduct}) => {
   );
 };
 
-const mapStateToProps = createStructuredSelector({
-
-});
-
-const mapDispatchtoProps = (dispatch) =>( {
-  updatePriceProduct: (data) => dispatch(updatePriceProduct(data)),
-});
-
-export default connect(mapStateToProps, mapDispatchtoProps)(TableCollapse);
+export default TableCollapse;

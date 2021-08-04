@@ -51,7 +51,6 @@ export const vendorCreate = (data) => {
     try {
       const responseData = await createVendor(data);
       if (responseData.message === 'Successful') {
-        dispatch(getAllVendors());
         emitSuccessfulMessage('Se ha creado el provedor');
       } else {
         emitErrorMessage(responseData.message);
@@ -61,6 +60,7 @@ export const vendorCreate = (data) => {
           statusError: true,
         }));
       }
+      dispatch(getAllVendors());
     } catch (error) {
       emitErrorMessage(error);
       dispatch(setErrorData({
@@ -122,6 +122,7 @@ export const updateDataVendor = (data) => {
       console.log(respondeData);
       if (respondeData.message === 'Successful') {
         console.log('Producto Actualizado');
+        dispatch(setOneVendor(respondeData.vendor));
         dispatch(getAllVendors());
         emitSuccessfulMessage('Se ha actualizado el proveedor');
       } else {

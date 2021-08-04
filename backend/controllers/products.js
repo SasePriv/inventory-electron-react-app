@@ -1,4 +1,5 @@
 const ProductModel = require('../models/products');
+const InvoiceVendorModal = require('../models/invoiceVendors');
 const mongoose = require('mongoose');
 
 exports.createProduct = async (data) => {
@@ -46,13 +47,10 @@ exports.createProduct = async (data) => {
 
 exports.getAllProducts = async () => {
   try {
-    const productData = await ProductModel.find();
-
+    const productData = await ProductModel.find().populate('data.invoicesIn');
     if (!productData) {
       return ({message: 'error-products'});
     }
-
-    // console.log(productData)
 
     return ({message: 'Successful', dataProducts: productData});
   } catch (error) {
@@ -64,30 +62,47 @@ exports.getAllProducts = async () => {
 exports.updateProductPrice = async (data) => {
   try {
     const {
-      vendorId,
+      invoiceId,
       price,
       productId,
     } = data;
 
-    const findProduct = await ProductModel.findById(productId);
+    // const invoice = await InvoiceVendorModal.findById(invoiceId);
+    const product = await ProductModel.findById(productId);
 
-    if (findProduct.length === 0) {
-      return ({message: 'error-product-find'});
-    };
-
-    const vendorArray = [...findProduct.vendor];
-
-    for (let index = 0; index < vendorArray.length; index++) {
-      if (vendorArray[index].vendorId.toString() === vendorId) {
-        vendorArray[index].price = price;
-      }
+    if (!product) {
+      return ({message: 'error-no-product'});
     }
 
-    findProduct.vendor = vendorArray;
+    for (const index in product.data) {
+      if (product.data[index].invoicesIn.toString() === invoiceId.toString()) {
+        product.data[index].price = price;
+        break;
+      }
+    };
 
-    const newProductData = await findProduct.save();
+    product.save();
 
-    return ({message: 'Successful', productData: newProductData});
+    // const product = await ProductModel.findById(productId).populate('invoicesIn');
+    // const findProduct = await ProductModel.findById(productId);
+
+    // if (findProduct.length === 0) {
+    //   return ({message: 'error-product-find'});
+    // };
+
+    // const vendorArray = [...findProduct.vendor];
+
+    // for (let index = 0; index < vendorArray.length; index++) {
+    //   if (vendorArray[index].vendorId.toString() === vendorId) {
+    //     vendorArray[index].price = price;
+    //   }
+    // }
+
+    // findProduct.vendor = vendorArray;
+
+    // const newProductData = await findProduct.save();
+
+    return ({message: 'Successful', productData: product});
   } catch (error) {
     console.log(error);
     return ({message: 'error-general'});
@@ -120,6 +135,35 @@ exports.updateProductData = async (data) => {
     if (findProduct === null) {
       return ({message: 'product-no-exist', productData: findProduct});
     }
+
+    return ({message: 'Successful'});
+  } catch (error) {
+    console.log(error);
+    return ({message: 'error-general'});
+  }
+};
+
+exports.deleteProduct = async (data) => {
+  try {
+    const {
+      productId,
+    } = data;
+
+    const product = await ProductModel.findById(productId);
+
+    if (!product) {
+      return ({message: 'error-no-product'});
+    }
+
+    if (product.sales.length > 0) {
+      return ({message: 'product-has-sale'});
+    }
+
+    if (product.data.length > 0) {
+      return ({message: 'product-has-data'});
+    }
+
+    await ProductModel.findByIdAndDelete(productId);
 
     return ({message: 'Successful'});
   } catch (error) {

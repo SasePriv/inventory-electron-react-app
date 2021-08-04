@@ -17,6 +17,7 @@ import {createStructuredSelector} from 'reselect';
 import './VendorsForm.scss';
 
 const VendorsForm = ({vendor}) => {
+  console.log('vendor', vendor)
   const [form, setForm] = useState({
     name: '',
     country: '',

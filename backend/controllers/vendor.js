@@ -62,8 +62,8 @@ exports.createInvoiceVendor = async (data) => {
       _id: new mongoose.Types.ObjectId,
       date,
       number,
-      products,
-      vendorId,
+      productsList: products,
+      vendor: vendorId,
     });
 
     const resultsInvoice = await newInvoice.save();
@@ -72,43 +72,15 @@ exports.createInvoiceVendor = async (data) => {
       return ({message: 'error-vendor'});
     }
 
-    const vendor = await VendorSchema.findById(vendorId);
-
     try {
       products.map(async (each) => {
-        const product = await ProductsSchema.findById(each.id);
-
-        let productsVendor = [...product.vendor];
-        let vendorFindIndex = null;
-
-        for (let index = 0; index < productsVendor.length; index++) {
-          if (productsVendor[index].vendorId === vendorId) {
-            vendorFindIndex = index;
-          };
-        }
-
-        if (vendorFindIndex !== null) {
-          productsVendor[vendorFindIndex].cost = each.cost;
-          productsVendor[vendorFindIndex].stock += Number(each.stock);
-
-          productsVendor[vendorFindIndex].invoicesId = [
-            ...productsVendor[vendorFindIndex].invoicesId,
-            resultsInvoice._id,
-          ];
-        } else {
-          productsVendor = [
-            ...productsVendor,
-            {
-              vendorName: vendor.name,
-              vendorId,
-              cost: each.cost,
-              stock: each.stock,
-              invoicesId: [resultsInvoice._id],
-            },
-          ];
-        }
-
-        product.vendor = productsVendor;
+        const product = await ProductsSchema.findById(each.product);
+        // product.invoicesIn = product.invoicesIn.concat(resultsInvoice._id);
+        product.data = product.data.concat({
+          invoicesIn: resultsInvoice._id,
+          cost: each.cost,
+          stock: each.stock,
+        });
         await product.save();
         console.log('Producto Guardado');
       });
@@ -117,15 +89,8 @@ exports.createInvoiceVendor = async (data) => {
       return ({message: 'error-general'});
     }
 
-    if (vendor.invoicesId) {
-      vendor.invoicesId = [
-        ...vendor.invoicesId,
-        resultsInvoice._id,
-      ];
-    } else {
-      vendor.invoicesId = [resultsInvoice._id];
-    }
-
+    const vendor = await VendorSchema.findById(vendorId);
+    vendor.invoices = vendor.invoices.concat(resultsInvoice._id);
     await vendor.save();
     return ({message: 'Successful'});
   } catch (error) {
@@ -134,12 +99,18 @@ exports.createInvoiceVendor = async (data) => {
   }
 };
 
+exports.deleteInvoice = async (data) => {
+
+};
+
 exports.getInvoiceVendorList = async (data) => {
   const {
     vendorId,
   } = data;
   try {
-    const dataInvoiceVendor = await InvoiceVendorSchema.find({vendorId});
+    const dataInvoiceVendor = await InvoiceVendorSchema.find({vendor: vendorId})
+        .populate('productsList.product')
+        .populate('vendor');
     return ({message: 'Successful', dataInvoiceVendor});
   } catch (error) {
     console.log(error);
@@ -147,7 +118,7 @@ exports.getInvoiceVendorList = async (data) => {
   }
 };
 
-exports.updateVendorData = async(data) => {
+exports.updateVendorData = async (data) => {
   try {
     const {
       name,
@@ -156,8 +127,6 @@ exports.updateVendorData = async(data) => {
       email,
       _id,
     } = data;
-
-    console.log(data);
 
     const findVendor = await VendorSchema.findByIdAndUpdate(_id, {
       name,
@@ -170,7 +139,7 @@ exports.updateVendorData = async(data) => {
       return ({message: 'vendor-no-exist'});
     }
 
-    return ({message: 'Successful'});
+    return ({message: 'Successful', vendor: findVendor});
   } catch (error) {
     console.log(error);
     return ({message: 'error-general'});

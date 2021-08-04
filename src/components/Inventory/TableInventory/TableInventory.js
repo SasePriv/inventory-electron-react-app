@@ -58,9 +58,10 @@ const Row = ({row, updatePriceProduct}) => {
     mininImage();
     loadImages();
     loadFirstVendor();
-  }, []);
+  }, [row]);
 
   const mininImage = () => {
+    console.log('aqui imagen priemro')
     if (row.images) {
       for (let i = 0; i < row.images.length; i++) {
         if (row.images[i].name !== '') {

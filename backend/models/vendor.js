@@ -14,7 +14,7 @@ const vendorSchema = mongoose.Schema(
           'Please enter a valid email',
         ],
       },
-      invoicesId: [{type: String}],
+      invoices: [{type: mongoose.Schema.Types.ObjectId, ref: 'InvoiceVendor'}],
     },
     {
       timestamps: true,

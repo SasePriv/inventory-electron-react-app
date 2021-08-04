@@ -173,6 +173,7 @@ const AddProduct = ({categoryList, brandList, newProduct, nameLabel, iconToggle 
       } else {
         updateDataProduct({...form, _id: product._id});
       }
+      initialValues();
       handleClose();
     };
   };

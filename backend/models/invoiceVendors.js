@@ -3,13 +3,17 @@ const mongoose = require('mongoose');
 const invoiceVendorSchema = mongoose.Schema(
     {
       _id: mongoose.Schema.Types.ObjectId,
-      vendorId: {type: mongoose.ObjectId, required: true},
+      vendor: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'Vendor',
+      },
       date: {type: Date},
       number: {type: String, required: true},
-      products: [{
-        id: String,
-        cost: Number,
-        stock: Number,
+      productsList: [{
+        product: {type: mongoose.Schema.Types.ObjectId, ref: 'Products'},
+        cost: {type: Number, default: 0},
+        stock: {type: Number, default: 0},
       }],
     },
     {

@@ -21,6 +21,9 @@ import {selectInvoiceOfVendorList, selectOneVendor} from '../../../redux/vendor/
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
 
+// modal
+import WatchVendorBill from '../WatchVendorBill/WatchVendorBill';
+
 const VendorBill = ({invoiceList, getAllInvoiceOfVendors, oneVendor}) => {
   useEffect(() => {
     if (oneVendor) {
@@ -60,8 +63,8 @@ const VendorBill = ({invoiceList, getAllInvoiceOfVendors, oneVendor}) => {
                         <TableCell>
                           {each.date.getDate() + '/' + (each.date.getMonth()+1) + '/' + each.date.getFullYear()}
                         </TableCell>
-                        <TableCell>
-                           Ver
+                        <TableCell >
+                          <WatchVendorBill bill={each}/>
                         </TableCell>
                       </TableRow>
                     );

@@ -4,7 +4,8 @@ import {
   createProduct,
   getAllProducts,
   updateProductPrice,
-  updateProductData
+  updateProductData,
+  deleteProduct,
 } from '../../services/product/productService';
 import {getAllBrand, createBrand, deleteBrand} from '../../services/brand/brandService';
 import {handleError} from '../../utils/handleErrors';
@@ -23,14 +24,15 @@ export const setProductUpdated = (data) => ({
 
 export const getProductsList = () => {
   return async (dispatch) => {
-    const respondeData = await getAllProducts();
-    if (respondeData.message === 'Successful') {
-      dispatch(setProductsList(respondeData.dataProducts));
+    const responseData = await getAllProducts();
+    console.log('servicio', responseData);
+    if (responseData.message === 'Successful') {
+      dispatch(setProductsList(responseData.dataProducts));
     } else {
-      emitErrorMessage(respondeData.message);
+      emitErrorMessage(responseData.message);
       dispatch(setErrorData({
         typeError: 'server',
-        errorMessage: handleError(respondeData.message),
+        errorMessage: handleError(responseData.message),
         statusError: true,
       }));
     }
@@ -66,14 +68,12 @@ export const newProduct = (data) => {
   };
 };
 
-
-
 export const updatePriceProduct = (data) => {
   return async (dispatch) => {
     try {
       const respondeData = await updateProductPrice(data);
       if (respondeData.message === 'Successful') {
-        console.log('Precio Actualizado');
+        console.log('Precio Actualizado', respondeData);
         dispatch(getProductsList());
         emitSuccessfulMessage('Se ha actualizado el precio del producto');
       } else {
@@ -81,6 +81,32 @@ export const updatePriceProduct = (data) => {
         dispatch(setErrorData({
           typeError: 'server',
           errorMessage: handleError(respondeData.message),
+          statusError: true,
+        }));
+      }
+    } catch (error) {
+      emitErrorMessage(error);
+      dispatch(setErrorData({
+        typeError: 'server',
+        errorMessage: handleError(error),
+        statusError: true,
+      }));
+    }
+  };
+};
+
+export const deleteOneProduct = (data) => {
+  return async (dispatch) => {
+    try {
+      const responseData = await deleteProduct(data);
+      if (responseData.message === 'Successful') {
+        dispatch(getProductsList());
+        emitSuccessfulMessage('Se ha eliminado el producto');
+      } else {
+        emitErrorMessage(responseData.message);
+        dispatch(setErrorData({
+          typeError: 'server',
+          errorMessage: handleError(responseData.message),
           statusError: true,
         }));
       }

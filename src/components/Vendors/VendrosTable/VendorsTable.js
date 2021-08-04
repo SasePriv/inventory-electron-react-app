@@ -28,6 +28,8 @@ const VendorsTable = ({vendorList, getAllVendors, setOneVendor}) => {
     getAllVendors();
   }, []);
 
+  console.log('vendorList', JSON.stringify(vendorList, 0, 2));
+
   const selectOneVendor = (row) => {
     setOneVendor(row);
   };

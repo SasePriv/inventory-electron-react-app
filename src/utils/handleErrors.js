@@ -33,6 +33,14 @@ export const handleError = (error) => {
     case 'error-company-login':
       return 'Error obteniendo la informacion de la cuenta';
 
+    case 'error-no-product':
+      return 'No se encontro el product';
+
+    case 'product-has-sale':
+      return 'El producto tiene factura de ventas';
+
+    case 'product-has-data':
+      return 'El producto tiene factura de proveedores';
     default:
       return 'DefaultError';
   }

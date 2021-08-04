@@ -72,6 +72,7 @@ const AddInvoice = ({oneVendor, podructList, invoiceVendorCreate}) => {
     errorProduct: '',
     errorStock: '',
     errorCost: '',
+    errorPrice: '',
   });
   const [productTableList, setProductTableList] = useState([]);
 
@@ -97,6 +98,7 @@ const AddInvoice = ({oneVendor, podructList, invoiceVendorCreate}) => {
       errorProduct: '',
       errorStock: '',
       errorCost: '',
+      errorPrice: '',
     });
     setProductTableList([]);
     // setVendorName('');
@@ -193,7 +195,7 @@ const AddInvoice = ({oneVendor, podructList, invoiceVendorCreate}) => {
         products: [
           ...form.products,
           {
-            id: productForm.product._id,
+            product: productForm.product._id,
             cost: productForm.cost,
             stock: productForm.stock,
           },
@@ -210,6 +212,14 @@ const AddInvoice = ({oneVendor, podructList, invoiceVendorCreate}) => {
         errorCost: '',
       });
     };
+  };
+
+  const deleteProductList = (id) => {
+    setForm({
+      ...form,
+      products: form.products.filter((each) => each.product !== id),
+    });
+    setProductTableList(productTableList.filter((each) => each.product._id !== id));
   };
 
   const handleValidationForm = () => {
@@ -354,7 +364,7 @@ const AddInvoice = ({oneVendor, podructList, invoiceVendorCreate}) => {
                   }
                 </Select>
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={2}>
                 <InputLabel id="demo-simple-select-outlined-label">Cantidad</InputLabel>
                 <TextField
                   id="outlined-number"
@@ -367,7 +377,7 @@ const AddInvoice = ({oneVendor, podructList, invoiceVendorCreate}) => {
                   helperText={errorProductForm.errorStock}
                 />
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={2}>
                 <InputLabel id="demo-simple-select-outlined-label">Costo</InputLabel>
                 <OutlinedInput
                   id="outlined-required"
@@ -381,6 +391,20 @@ const AddInvoice = ({oneVendor, podructList, invoiceVendorCreate}) => {
                   helperText={errorProductForm.errorCost}
                 />
               </Grid>
+              {/* <Grid item xs={2}>
+                <InputLabel id="demo-simple-select-outlined-label">Precio</InputLabel>
+                <OutlinedInput
+                  id="outlined-required"
+                  defaultValue="0"
+                  // variant="outlined"
+                  type="number"
+                  startAdornment={<InputAdornment position="end">$</InputAdornment>}
+                  value={productForm.price}
+                  onChange={(e) => handleChangeProductForm(e, 'price')}
+                  // error={errorProductForm.errorPrice !== '' ? true : false}
+                  // helperText={errorProductForm.errorPrice}
+                />
+              </Grid> */}
               <Grid item xs={2}>
                 <Button 
                   variant="contained"
@@ -410,6 +434,9 @@ const AddInvoice = ({oneVendor, podructList, invoiceVendorCreate}) => {
                         <TableCell>
                           Costo
                         </TableCell>
+                        <TableCell>
+                          Acciones
+                        </TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -425,6 +452,11 @@ const AddInvoice = ({oneVendor, podructList, invoiceVendorCreate}) => {
                               </TableCell>
                               <TableCell>
                                 <div>{row.cost}$</div>
+                              </TableCell>
+                              <TableCell>
+                                <div
+                                  onClick={(e) => deleteProductList(row.product._id)}
+                                  className="deleteBtnTable">X</div>
                               </TableCell>
                             </TableRow>
                           );

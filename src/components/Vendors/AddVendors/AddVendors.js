@@ -84,21 +84,21 @@ const AddVendors = ({vendorCreate, vendor = null, updateDataVendor}) => {
 
   const validateForm = () => {
     // eslint-disable-next-line max-len
-    const re = /\S+@\S+\.\S+/;
-    const emailCheck = re.test(String(form.email).toLowerCase());
-    if (form.email === '') {
-      setErrorMessage({
-        ...errorMessage,
-        errorEmail: 'No deje este campo vacio.',
-      });
-      return false;
-    } else if (!emailCheck) {
-      setErrorMessage({
-        ...errorMessage,
-        errorEmail: 'Introduzca un email valido.',
-      });
-      return false;
-    }
+    // const re = /\S+@\S+\.\S+/;
+    // const emailCheck = re.test(String(form.email).toLowerCase());
+    // if (form.email === '') {
+    //   setErrorMessage({
+    //     ...errorMessage,
+    //     errorEmail: 'No deje este campo vacio.',
+    //   });
+    //   return false;
+    // } else if (!emailCheck) {
+    //   setErrorMessage({
+    //     ...errorMessage,
+    //     errorEmail: 'Introduzca un email valido.',
+    //   });
+    //   return false;
+    // }
 
     if (form.name === '') {
       setErrorMessage({
@@ -119,6 +119,7 @@ const AddVendors = ({vendorCreate, vendor = null, updateDataVendor}) => {
       } else {
         updateDataVendor({...form, _id: vendor._id});
       }
+      initialValues();
       handleClose();
     }
   };
