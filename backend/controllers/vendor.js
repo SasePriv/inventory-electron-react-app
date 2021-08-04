@@ -100,7 +100,44 @@ exports.createInvoiceVendor = async (data) => {
 };
 
 exports.deleteInvoice = async (data) => {
+  const {
+    invoiceId,
+  } = data;
 
+  let ifDelete = false;
+  let count = 0;
+
+  const invoice = await InvoiceVendorSchema.findById(invoiceId);
+  const productList = invoice.productsList;
+
+  for (let index = 0; index < productList.length; index++) {
+    const product = await ProductsSchema(productList[index].product);
+
+    for (let j = 0; j < product.data.length; j++) {
+      if (productList[index].stock === product.data[j].stock) {
+        ifDelete = true;
+        count++;
+      }
+    }
+  }
+
+  if (count === productList.length && ifDelete) {
+    try {
+      await InvoiceVendorSchema.findByIdAndDelete(invoiceId);
+
+      for (let index = 0; index < productList.length; index++) {
+        const product = await ProductsSchema(productList[index].product);
+        product.data = product.data.filter((item) => item.invoicesIn.toString() !== invoiceId);
+        await product.save();
+      }
+
+      return ({message: 'error-vendor'});
+    } catch (error) {
+      return ({message: 'error-delete-invoice-none'});
+    }
+  }
+
+  return ({message: 'invoice-can-not'});
 };
 
 exports.getInvoiceVendorList = async (data) => {
