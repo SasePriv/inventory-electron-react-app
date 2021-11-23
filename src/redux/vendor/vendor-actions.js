@@ -7,8 +7,10 @@ import {
   createVendor,
   createInvoiceVendor,
   getInvoiceVendorList,
-  updateVendorData
+  updateVendorData,
+  deleteInvoice,
 } from '../../services/vendor/vendorService';
+import {getProductsList} from '../inventory/inventory-actions';
 
 export const setVendorList = (data) => ({
   type: VendorActionTypes.SET_VENDOR_LIST,
@@ -96,6 +98,7 @@ export const invoiceVendorCreate = (data) => {
         dispatch(getAllInvoiceOfVendors(data.vendorId));
         emitSuccessfulMessage('Se ha creado la factura');
         dispatch(setOneVendor(null));
+        dispatch(getProductsList());
       } else {
         emitErrorMessage(responseData.message);
         dispatch(setErrorData({
@@ -105,6 +108,36 @@ export const invoiceVendorCreate = (data) => {
         }));
       }
     } catch (error) {
+      emitErrorMessage(error);
+      dispatch(setErrorData({
+        typeError: 'server',
+        errorMessage: handleError(error),
+        statusError: true,
+      }));
+    }
+  };
+};
+
+export const deleteInvoiceVendor = (data) => {
+  return async (dispatch) => {
+    try {
+      const responseData = await deleteInvoice({invoiceId: data.invoiceId});
+      if (responseData.message === 'Successful') {
+        dispatch(getAllInvoiceOfVendors(data.vendorId));
+        emitSuccessfulMessage('Se ha eliminado la factura');
+        dispatch(setOneVendor(null));
+        dispatch(getProductsList());
+      } else {
+        console.log('FailesResponse', responseData);
+        emitErrorMessage(responseData.message);
+        dispatch(setErrorData({
+          typeError: 'server',
+          errorMessage: handleError(responseData.message),
+          statusError: true,
+        }));
+      }
+    } catch (error) {
+      console.log(error);
       emitErrorMessage(error);
       dispatch(setErrorData({
         typeError: 'server',

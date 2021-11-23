@@ -6,6 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import EditClient from '../AddClients/AddClients';
 
 // import {selectOneVendor} from '../../../redux/vendor/vendor-selectos';
 import {selectOneClient} from '../../../redux/client/client-selectors';
@@ -90,6 +91,9 @@ const SalesForm = ({client}) => {
             >
               Editar
             </Button>
+            <EditClient
+              disabled={client === null ? true : false}
+            />
           </div>
         </Grid>
       </Grid>

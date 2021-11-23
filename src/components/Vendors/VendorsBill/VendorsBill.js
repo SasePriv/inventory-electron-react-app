@@ -1,6 +1,7 @@
+/* eslint-disable max-len */
 /* eslint-disable react/prop-types */
 // React
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 
 // Material UI
 import Paper from '@material-ui/core/Paper';
@@ -16,7 +17,7 @@ import AddInvoice from '../AddInvoice/AddInvoice';
 // Styles
 import './VendorsBill.scss';
 // Redux
-import {getAllInvoiceOfVendors} from '../../../redux/vendor/vendor-actions';
+import {getAllInvoiceOfVendors, deleteInvoiceVendor} from '../../../redux/vendor/vendor-actions';
 import {selectInvoiceOfVendorList, selectOneVendor} from '../../../redux/vendor/vendor-selectos';
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
@@ -24,7 +25,7 @@ import {createStructuredSelector} from 'reselect';
 // modal
 import WatchVendorBill from '../WatchVendorBill/WatchVendorBill';
 
-const VendorBill = ({invoiceList, getAllInvoiceOfVendors, oneVendor}) => {
+const VendorBill = ({invoiceList, getAllInvoiceOfVendors, oneVendor, deleteInvoiceVendor}) => {
   useEffect(() => {
     if (oneVendor) {
       getAllInvoiceOfVendors({vendorId: oneVendor._id});
@@ -64,7 +65,10 @@ const VendorBill = ({invoiceList, getAllInvoiceOfVendors, oneVendor}) => {
                           {each.date.getDate() + '/' + (each.date.getMonth()+1) + '/' + each.date.getFullYear()}
                         </TableCell>
                         <TableCell >
-                          <WatchVendorBill bill={each}/>
+                          <WatchVendorBill
+                            bill={each}
+                            handleDelete={deleteInvoiceVendor}
+                          />
                         </TableCell>
                       </TableRow>
                     );
@@ -89,6 +93,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = (dispatch) => ({
   getAllInvoiceOfVendors: (data) => dispatch(getAllInvoiceOfVendors(data)),
+  deleteInvoiceVendor: (data) => dispatch(deleteInvoiceVendor(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(VendorBill);

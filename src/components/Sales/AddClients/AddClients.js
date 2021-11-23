@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import {makeStyles} from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
@@ -7,15 +7,12 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-
-import {emitErrorMessage} from '../../../utils/notifications';
+import Button from '@material-ui/core/Button';;
 import {clientCreate} from '../../../redux/client/client-actions';
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
 
 import './AddClients.scss';
-import { set } from 'mongoose';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -33,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddClients = ({clientCreate}) => {
+const AddClients = ({clientCreate, client = null, updateDataClient, disabled}) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({
@@ -48,6 +45,17 @@ const AddClients = ({clientCreate}) => {
     errorEmail: '',
     errorPhone: '',
   });
+
+  useEffect(() => {
+    if (client !== null) {
+      setForm({
+        name: client.name,
+        ci: client.ci,
+        email: client.email,
+        phone: client.phone,
+      });
+    }
+  }, [client]);
 
   const initialValues = () => {
     setForm({
@@ -73,26 +81,26 @@ const AddClients = ({clientCreate}) => {
 
   const validateForm = () => {
     // eslint-disable-next-line max-len
-    const re = /\S+@\S+\.\S+/;
-    const emailCheck = re.test(String(form.email).toLowerCase());
-    if (form.email === '') {
-      setErrorMessage({
-        ...errorMessage,
-        errorEmail: 'No deje este campo vacio.',
-      });
-      return false;
-    } else if (!emailCheck) {
-      setErrorMessage({
-        ...errorMessage,
-        errorEmail: 'Introduzca un email valido.',
-      });
-      return false;
-    } else {
-      setErrorMessage({
-        ...errorMessage,
-        errorEmail: '',
-      });
-    }
+    // const re = /\S+@\S+\.\S+/;
+    // const emailCheck = re.test(String(form.email).toLowerCase());
+    // if (form.email === '') {
+    //   setErrorMessage({
+    //     ...errorMessage,
+    //     errorEmail: 'No deje este campo vacio.',
+    //   });
+    //   return false;
+    // } else if (!emailCheck) {
+    //   setErrorMessage({
+    //     ...errorMessage,
+    //     errorEmail: 'Introduzca un email valido.',
+    //   });
+    //   return false;
+    // } else {
+    //   setErrorMessage({
+    //     ...errorMessage,
+    //     errorEmail: '',
+    //   });
+    // }
 
     if (form.name === '') {
       setErrorMessage({
@@ -126,7 +134,9 @@ const AddClients = ({clientCreate}) => {
   const handleCreate = () => {
     const isValid = validateForm();
     if (isValid) {
-      clientCreate(form);
+      if (client === null) {
+        clientCreate(form);
+      }
       handleClose();
     }
   };
@@ -216,7 +226,7 @@ const AddClients = ({clientCreate}) => {
               <Grid container item xs={12} justify="flex-end" spacing={2}>
                 <div className="btnContainer">
                   <Button variant="contained" color="primary" onClick={handleCreate}>
-                  Crear Cliente
+                    {client === null ? 'Crear Cliente' : 'Editar Cliente'}
                   </Button>
                 </div>
               </Grid>

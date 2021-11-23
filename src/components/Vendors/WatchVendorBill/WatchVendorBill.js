@@ -6,7 +6,6 @@ import {makeStyles} from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -28,11 +27,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const WatchVendorBill = ({bill}) => {
+const WatchVendorBill = ({bill, handleDelete}) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-
-  console.log('bill', JSON.stringify(bill, 0, 2))
 
   const handleOpen = () => {
     setOpen(true);
@@ -159,7 +156,11 @@ const WatchVendorBill = ({bill}) => {
               <div className="row">
                 <div className="col-12">
                   <div className="d-flex justify-content-center">
-                    <button type="button" className="btn btn-danger">Eliminar</button>
+                    <button
+                      type="button"
+                      className="btn btn-danger"
+                      onClick={() => handleDelete({invoiceId: bill._id, vendorId: bill.vendor._id})}
+                    >Eliminar</button>
                   </div>
                   <div>Solo se podran eliminar las facturas las cuales los productos no hayan realizada una venta</div>
                 </div>

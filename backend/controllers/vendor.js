@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const mongoose = require('mongoose');
 const VendorSchema = require('../models/vendor');
 const InvoiceVendorSchema = require('../models/invoiceVendors');
@@ -111,9 +112,11 @@ exports.deleteInvoice = async (data) => {
   const productList = invoice.productsList;
 
   for (let index = 0; index < productList.length; index++) {
-    const product = await ProductsSchema(productList[index].product);
+    const product = await ProductsSchema.findById(productList[index].product);
 
     for (let j = 0; j < product.data.length; j++) {
+      console.log('ProductListSotck', productList[index].stock);
+      console.log('ProductDataStock', product.data[j].stock);
       if (productList[index].stock === product.data[j].stock) {
         ifDelete = true;
         count++;
@@ -126,13 +129,19 @@ exports.deleteInvoice = async (data) => {
       await InvoiceVendorSchema.findByIdAndDelete(invoiceId);
 
       for (let index = 0; index < productList.length; index++) {
-        const product = await ProductsSchema(productList[index].product);
-        product.data = product.data.filter((item) => item.invoicesIn.toString() !== invoiceId);
+        const product = await ProductsSchema.findById(productList[index].product);
+        product.data = product.data.filter((item) => item.invoicesIn.toString() !== invoiceId.toString());
+        console.log('productData', product.data);
         await product.save();
       }
 
-      return ({message: 'error-vendor'});
+      const vendor = await VendorSchema.findById(invoice.vendor);
+      vendor.invoices = vendor.invoices.filter((item) => item.toString() !== invoiceId);
+      await vendor.save();
+
+      return ({message: 'Successful'});
     } catch (error) {
+      console.log(error);
       return ({message: 'error-delete-invoice-none'});
     }
   }

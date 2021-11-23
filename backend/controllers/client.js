@@ -12,6 +12,7 @@ exports.createClient = async (data) => {
       email,
     } = data;
 
+
     const findClient = await ClientSchema.find({ci});
 
     if (findClient.length) {
@@ -29,11 +30,13 @@ exports.createClient = async (data) => {
     const resultClient = newClient.save();
 
     if (!resultClient) {
+      console.log('erro aqui')
       return ({message: 'error-client'});
     }
 
     return ({message: 'Successful'});
   } catch (error) {
+    console.log('aqui')
     console.log(error);
     return ({message: 'error-general'});
   }
@@ -44,6 +47,7 @@ exports.getAllClients = async () => {
     const clientData = await ClientSchema.find();
 
     if (!clientData) {
+      console.log('errpr')
       return ({message: 'error-clients'});
     }
 

@@ -207,7 +207,7 @@ const ViewProduct = ({handleClose, open, data, updatePriceProduct, deleteOneProd
                   // }}
                 >
                   {data.data.map((each, index) => {
-                    return (<option key={index} value={index}>{each.invoicesIn.number}</option>);
+                    return (<option key={index} value={index}>{each.invoicesIn?.number}</option>);
                   })}
                 </Select>
               </FormControl>
